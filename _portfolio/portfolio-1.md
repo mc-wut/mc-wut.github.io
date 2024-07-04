@@ -1,6 +1,6 @@
 ---
-title: "Your HLT Internship (with a much more explanatory title)"
-excerpt: "Short description of the goals and content of your internship<br/><img src='/images/500x300.png'>"
+title: "Data Extraction from long texts using ODIN"
+excerpt: "Capturing specific entities, locations and figures in text extracted from PDFs using syntactic rules. <br/><img src='/images/internship-post-image.png'>"
 collection: portfolio
 ---
 
