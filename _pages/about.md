@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "This is a ready-to-use GitHub Pages template for UAZHLT professional websites"
+title: "Matt EM"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
@@ -8,7 +8,9 @@ redirect_from:
   - /about.html
 ---
 
-This is the front page of a website that is powered by the [AcademicPages template](https://github.com/academicpages/academicpages.github.io) and hosted on GitHub pages. [GitHub pages](https://pages.github.com) is a free service in which websites are built and hosted from code and data stored in a GitHub repository, automatically updating when a new commit is made to the respository. This template was forked from [the AcademicPages repository](https://github.com/academicpages/academicpages.github.io), which itself was forked from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/) created by Michael Rose, and then tailored to the components required for the UAZHLT professional website: two HLT projects within a portfolio, the potential for blog posts, and a dynamically-generated CV. You can create your own repository from this template, modify the configuration and markdown files, add your own PDFs and other content, and have your own site for free.
+Matt is not a doctor.
+ 
+<!-- This is the front page of a website that is powered by the [AcademicPages template](https://github.com/academicpages/academicpages.github.io) and hosted on GitHub pages. [GitHub pages](https://pages.github.com) is a free service in which websites are built and hosted from code and data stored in a GitHub repository, automatically updating when a new commit is made to the respository. This template was forked from [the AcademicPages repository](https://github.com/academicpages/academicpages.github.io), which itself was forked from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/) created by Michael Rose, and then tailored to the components required for the UAZHLT professional website: two HLT projects within a portfolio, the potential for blog posts, and a dynamically-generated CV. You can create your own repository from this template, modify the configuration and markdown files, add your own PDFs and other content, and have your own site for free.
 
 This particular file should hold your professional introduction. It can be edited in `_pages/about.md`. You don't need to save any of the page *content* that was here, since it is recoverable from [the template](https://github.com/uazhlt/professionalGHpages.github.io), should you need it.
 
@@ -42,4 +44,4 @@ The creator of the AcademicPages template has also created [a set of Jupyter not
 
 For more info
 ------
-More info about configuring AcademicPages can be found in [the guide](https://academicpages.github.io/markdown/). The [guides for the Minimal Mistakes theme](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) (which this theme was forked from) might also be helpful.
+More info about configuring AcademicPages can be found in [the guide](https://academicpages.github.io/markdown/). The [guides for the Minimal Mistakes theme](https://mmistakes.github.io/minimal-mistakes/docs/configuration/) (which this theme was forked from) might also be helpful. -->
