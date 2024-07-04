@@ -6,7 +6,7 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-theme                    : hyde
+remote_theme: pages-themes/midnight@v0.2.0
 locale                   : "en-US"
 title                    : "Matt Evans-McLaughlin | NLP"
 title_separator          : "-"
@@ -261,6 +261,7 @@ timezone: America/Los_Angeles # http://en.wikipedia.org/wiki/List_of_tz_database
 
 # Plugins
 plugins:
+  - jekyll-remote-theme
   - jekyll-paginate
   - jekyll-sitemap
   - jekyll-gist
