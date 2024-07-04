@@ -48,7 +48,7 @@ staticman:
       options:
         format           : "iso8601" # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
 atom_feed:
-  path                   : # blank (default) uses feed.xml
+  path                   : # gem "github-pages", group: :jekyll_pluginsblank (default) uses feed.xml
 
 # SEO Related
 google_site_verification :
@@ -83,7 +83,7 @@ analytics:
 author:
   name             : "About Matt"
   avatar           : "professional_portrait.jpg"
-  bio              : "Matt is a software developer specializing in Natural Language Processing and Machine Learning."
+  bio              : "Matt is a software developer specializing in Natural Language Processing and Machine Learning. He is not a doctor."
   location         : "Tucson"
   employer         :
   pubmed           : 
