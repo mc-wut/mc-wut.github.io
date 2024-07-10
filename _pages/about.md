@@ -15,8 +15,7 @@ I am a student in the University of Arizona's Human Langauge Techology MS. I hol
 
 My NLP interests are primarily in Information Extraction. The distillation of complex resources into relevant details is a thrilling pursuit. Proficiency in ODIN and a simple classifiers can be built into fast, robust IE systems. 
 
-## Life Experience
-
+## Background/Interests
 
 ## Work Experience
 ### 2024 - 
