@@ -8,28 +8,27 @@ redirect_from:
   - /about.html
 ---
 
-## This is just a start.
- 
+# About Me
 I am a student in the University of Arizona's Human Langauge Techology MS. I hold a Bachelor's in Linguistics with a minor in Computer Science, also from the University of Arizona, where I graduated Magna cum Laude. 
-
 
 My NLP interests are primarily in Information Extraction. The distillation of complex resources into relevant details is a thrilling pursuit. Proficiency in ODIN and a simple classifiers can be built into fast, robust IE systems. 
 
-## Background/Interests
+## Education
+### **BA Linguistics with Computer Science Minor &ndash; University of Arizona (2019-2023)**
+In my undergraduate I took particular joy in studying Semantics and Pragmatics, particularly Quantifier Scope. I had the opportunity to work with Dr. Robert Henderson on several independent studies including a survey of the most influential papers in Semantics (a very challenging favorite being *The Proper Treatment of Quantification in Regular English* by Richard Montague), and some basic work on A corpus of Uspanteko. I hope to have the opportunity to contribute to research on under-resourced languages again in the future. 
+### **MS Human Langauge Technology &ndash; University of Arizona (2022-2024) **
+I enrolled in the Accelerated Master's of Human Language Technology in Fall 2022 while completing my Bachelor's. The program consisted of varied classes in Linguistics as well as Machine Learning and programming with a Linguistic focus. 
 
 ## Work Experience
-### 2024 - 
+### **2024 - Now**
 In spring of 2024 I was brought on as an Natural Language Processing / Machine Learning intern for Lum AI. I worked on an ODIN based extraction system for a few relevant details being extracted from PDF files ranging in length from 5-700 pages. It was a really fun opportunity to put some of my syntactic knowledge to work as many of the rules were based on a combination of Named-Entity-Recognition, Part-of-Speech tagging, and Universal Dependency systems. 
 
-### 2010-2020
-Before returning to school in 2020 I worked in a variety of Food and Beverage jobs including managing several cocktail programs/bars (Society Lounge Cleveland, Welcome Diner Tucson) working as a "Mezcal Librarian" at El Crisol and as a Brewer-Maltster-Distiller of Single Malt at Whiskey Del Bac. The pace and demand of all of those jobs on both an informational and in-the-moment technical level encouraged me to go back to school.
+### **2010-2020**
+Before returning to school in 2020 I worked in a variety of Food and Beverage jobs including managing several cocktail programs/bars (Society Lounge Cleveland, Welcome Diner Tucson, among others) working as a "Mezcal Librarian" at El Crisol and as a Brewer-Maltster-Distiller of Single Malt at Whiskey Del Bac. The pace and demand of all of those jobs on both an informational and in-the-moment technical level encouraged me to go back to school.
 
+## Skills
+Machine Learing, Compuational Linguistics, Python, Pytorch, Scikit-Learn, Java, Pandas, Perl
 
-## Education
-### BA in Linguistics with Computer Science Minor (2020-2024)
-In my undergraduate I took particular joy in studying Semantics and Pragmatics, particularly Quantifier Scope. I had the opportunity to work with Dr. Robert Henderson on several independent studies including a survey of the most influential papers in Semantics (a very challenging favorite being *The Proper Treatment of Quantification in Regular English* by Richard Montague), and some basic work on A corpus of Uspanteko. I hope to have the opportunity to contribute to research on under-resourced languages again in the future. 
-
- 
 <!-- This is the front page of a website that is powered by the [AcademicPages template](https://github.com/academicpages/academicpages.github.io) and hosted on GitHub pages. [GitHub pages](https://pages.github.com) is a free service in which websites are built and hosted from code and data stored in a GitHub repository, automatically updating when a new commit is made to the respository. This template was forked from [the AcademicPages repository](https://github.com/academicpages/academicpages.github.io), which itself was forked from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/) created by Michael Rose, and then tailored to the components required for the UAZHLT professional website: two HLT projects within a portfolio, the potential for blog posts, and a dynamically-generated CV. You can create your own repository from this template, modify the configuration and markdown files, add your own PDFs and other content, and have your own site for free.
 
 This particular file should hold your professional introduction. It can be edited in `_pages/about.md`. You don't need to save any of the page *content* that was here, since it is recoverable from [the template](https://github.com/uazhlt/professionalGHpages.github.io), should you need it.
