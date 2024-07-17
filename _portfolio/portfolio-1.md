@@ -1,5 +1,5 @@
 ---
-title: "Data Extraction from long texts using ODIN"
+title: "Information Extraction from long texts using ODIN"
 excerpt: "Capturing specific entities, locations and figures in text extracted from PDFs using syntactic rules. <br/><img src='/images/internship-post-image.png'>"
 collection: portfolio
 ---
@@ -22,9 +22,26 @@ Odin (Open Domain INformer) **INSERT ARXIV LINK HERE** is an extraction framewor
 
 The framework is characterized by its rule-based approach. Each rule can rely on any of the underlying annotation systems or the plain text. 
 
-A simple rule could be any noun or a literal string like "BID"
+A simple rule might be a lemma like "bid" or a NER tag of "org".
 
-**INSERT BID & POS tag EXAMPLE RULE HERE**
+  - name: "bid"
+    priority: 1
+    label: Bid
+    type: token
+    keep: false
+    example: "Bids"
+    pattern: |
+      [lemma=bid]|[lemma=proposal]
+
+
+  - name: "org-ner"
+    label: Org
+    priority: 1
+    type: token
+    keep: false
+    pattern: |
+      [entity=/ORG/]+
+
 Complex rules combine several rules or the occurrence of a previous rule in a specific syntactic position.
 
 **INSERT BID IN CONTEXT AND OTHER COMPLICATED RULE HERE**
