@@ -64,14 +64,9 @@ In this project, Odin **Mentions** were then filtered and pruned into **Extracti
 ## DOCUMENTS AND EXTRACTIONS	 
 The documents we were processing did not follow a universal standard but came in two main types. 
 
-Type A was an expansive tome (200-700) containing many sections on various technical requirements, and a single large section covering the legal agreements between various construction companies and the government entity contracting the work. 
+[Type A](https://mc-wut.github.io/files/bowman-specs-contract-docs.pdf) was an expansive tome (200-700) containing many sections on various technical requirements, and a single large section covering the legal agreements between various construction companies and the government entity contracting the work. 
 
-<embed src="/files/bowman-specs-contract-docs.pdf" width="50%" height="600px" />
-
-
-**INSERT LINK TO A FAT TOME OR AN IMAGE OF A MASSIVE PAGE COUNT IN ACROBAT**
-
-Type B  was an "Addendum" a 1-15 page document, that indicated that something had changed in the original document. Someone somewhere made an oopsie, or some circumstance had changed. This will be important later.
+[Type B](https://mc-wut.github.io/files/ceres-addendum.pdf)  was an "Addendum" a 1-15 page document, that indicated that something had changed in the original document. Someone somewhere made an oopsie, or some circumstance had changed. This will be important later.
 
 **INSERT LINK TO LITTLE PDF OR IMAGE OF AN ADDENDUM COVER PAGE**
 
