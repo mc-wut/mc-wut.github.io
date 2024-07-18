@@ -16,7 +16,7 @@ This blog post will be in four sections.
 
 ## A Brief Introduction to ODIN
 
-Odin (Open Domain INformer) **INSERT ARXIV LINK HERE** is an extraction framework that operates over documents that have been tokenized, sentence-segmented, part of speech tagged, lemmatized, and named entity tagged, and dependency parsed using an NLP pipeline.  
+[Odin (Open Domain INformer)](https://arxiv.org/abs/1509.07513) is an extraction framework that operates over documents that have been tokenized, sentence-segmented, part of speech tagged, lemmatized, and named entity tagged, and dependency parsed using an NLP pipeline. For a complete introduction see the link, I'll only include some basics in this post.
 
 The framework is characterized by its rule-based approach. Each rule can rely on any of the underlying annotation systems or the plain text. 
 
@@ -44,11 +44,20 @@ A simple rule might be a lemma like "bid" or a NER tag of "org".
 
 Complex rules combine several rules or the occurrence of a previous rule in a specific syntactic position.
 
-**INSERT BID IN CONTEXT AND OTHER COMPLICATED RULE HERE**
+```yaml
+  - name: 'bid-time-event-1'
+    priority: 2
+    label: BidTime
+    pattern: |
+      trigger = [lemma=receive]|[lemma=open]
+      dummy_bid:Bid = (>dobj|>nsubjpass|>nsubj) (>nmod_for)?
+      time:Time = (>nmod_at|>nmod_to)? (>nmod_of)? (>nmod_until|>/^nmod/|>dep)? (>nummod|>compound)?
+```
+In this example we've got a 'bid' rule and a 'time' rule being utilized as parts of an **Event-Mention**.
+
+[Bid-Time rule diagram](https://mc-wut.github.io/images/internship-post-image.png)
 
 After applying the grammar (set of all rules) to the annotated document, we are left with our **Mentions**. 
-
-
 
 In this project, Odin **Mentions** were then filtered, and pruned into **Extractions**. **Extractions** are the end product, filtered and cleaned for users.  
 
