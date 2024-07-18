@@ -4,8 +4,6 @@ excerpt: "Capturing specific entities, locations and figures in text extracted f
 collection: portfolio
 ---
 
-**THIS ALL NEEDS TO BE CONVERTED TO MARKDOWN**
-
 The task of my internship with LUM AI was to create the grammar and extraction filters for an ODIN-based Information Extraction system. 
 
 The documents that required extraction were technical and contract documents provided by government agencies for the construction of public projects. They covered the details of projects like rebuilding Sewer Lift Pump Stations, adding wells to landfills, and other public construction projects. The client was a construction company looking to streamline their estimate process. The goal was to have the most critical details at a glance rather than digging through these documents, which could be up to 700 pages long.
@@ -24,6 +22,7 @@ The framework is characterized by its rule-based approach. Each rule can rely on
 
 A simple rule might be a lemma like "bid" or a NER tag of "org".
 
+```yaml
   - name: "bid"
     priority: 1
     label: Bid
@@ -41,6 +40,7 @@ A simple rule might be a lemma like "bid" or a NER tag of "org".
     keep: false
     pattern: |
       [entity=/ORG/]+
+```
 
 Complex rules combine several rules or the occurrence of a previous rule in a specific syntactic position.
 
@@ -48,7 +48,7 @@ Complex rules combine several rules or the occurrence of a previous rule in a sp
 
 After applying the grammar (set of all rules) to the annotated document, we are left with our **Mentions**. 
 
-**IMAGE OF BID EXTRACTION PULL FROM TUTORIAL PAGE**
+
 
 In this project, Odin **Mentions** were then filtered, and pruned into **Extractions**. **Extractions** are the end product, filtered and cleaned for users.  
 
