@@ -59,12 +59,15 @@ In this example we've got a 'bid' rule and a 'time' rule being utilized as parts
 
 After applying the grammar (set of all rules) to the annotated document, we are left with our **Mentions**. 
 
-In this project, Odin **Mentions** were then filtered, and pruned into **Extractions**. **Extractions** are the end product, filtered and cleaned for users.  
+In this project, Odin **Mentions** were then filtered and pruned into **Extractions**, the end product for users. The initial and main mechanism for filtering rules is theh ```keep:``` flag. Which defaults to True. If you are curious about seeing which of our (admittedly many) rules were reaching end users, that is the easiest way to tell.  
 
 ## DOCUMENTS AND EXTRACTIONS	 
 The documents we were processing did not follow a universal standard but came in two main types. 
 
 Type A was an expansive tome (200-700) containing many sections on various technical requirements, and a single large section covering the legal agreements between various construction companies and the government entity contracting the work. 
+
+<embed src="/files/bowman-specs-contract-docs.pdf" width="50%" height="600px" />
+
 
 **INSERT LINK TO A FAT TOME OR AN IMAGE OF A MASSIVE PAGE COUNT IN ACROBAT**
 
@@ -93,6 +96,8 @@ DESCRIBE HOW FILTERING ALSO HELPED WITH THE DIFFERENTIATION OF EXTRACTIONS FROM 
 SHOW EXAMPLE CONTRACTED DOC (HIGHLIGHTED EXTRACTION FIELDS????)
 
 THEN SHOW THE OUTPUT OF THE LOCAL SYSTEM. (TEXT OR IMAGE???)
+
+[Code Relevent to this Project](https://github.com/mc-wut/internship_files/tree/main)
 
 <!-- This is an item in your portfolio that describes your internship. It can have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML.
 
