@@ -61,20 +61,28 @@ After applying the grammar (set of all rules) to the annotated document, we are 
 
 In this project, Odin **Mentions** were then filtered and pruned into **Extractions**, the end product for users. The initial and main mechanism for filtering rules is theh ```keep:``` flag. Which defaults to True. If you are curious about seeing which of our (admittedly many) rules were reaching end users, that is the easiest way to tell.  
 
-## DOCUMENTS AND EXTRACTIONS	 
+## Documents and Extractions	 
 The documents we were processing did not follow a universal standard but came in two main types. 
 
 [Type A](https://mc-wut.github.io/files/bowman-specs-contract-docs.pdf) was an expansive tome (200-700) containing many sections on various technical requirements, and a single large section covering the legal agreements between various construction companies and the government entity contracting the work. 
 
-[Type B](https://mc-wut.github.io/files/ceres-addendum.pdf)  was an "Addendum" a 1-15 page document, that indicated that something had changed in the original document. Someone somewhere made an oopsie, or some circumstance had changed. This will be important later.
+[Type B](https://mc-wut.github.io/files/ceres-addendum.pdf)  was an "Addendum" a 1-15 page document, that indicated that something had changed in the original document. A mistake or typo occured in the original document, or some circumstance had changed. This will be important later.
 
-**INSERT LINK TO LITTLE PDF OR IMAGE OF AN ADDENDUM COVER PAGE**
+From these documents our clients wanted ten different fields extracted.
+    - Project Name
+    - Project Owner
+    - Project Duration
+    - Project Location
+    - Bid Date
+    - Bid Time
+    - Engineer's Estimate
+    - Engineer of Record
+    - Qualifications and Concerns
+    - Liquidated Damages
 
-**DESCRIBE FIELDS HERE**
+Each of the rules in our [`variable_grammar.yml`](https://github.com/mc-wut/internship_files/blob/main/variable_grammar.yml) is for the capture of these variables as they occur in the texts. 
 
-## EXTRACTION GRAMMAR (RENAME SECTION??)
-
-**LINK TO CODE GOES AT THE TOP**
+##  Variable GRAMMAR (RENAME SECTION??)
 
 CHERRY PICK A COUPLE COOL RULES TO GO OVER HOW SMOART YOU BE
 
