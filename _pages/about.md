@@ -17,3 +17,6 @@ If I'm not working or spending time with my family, you can usually find me at [
 
 ![Go Speed Racer at Pinhead Wall on Mt. Lemmon](/images/climbing.png)
 
+<div style="text-align: center;">
+    <img src="/images/climbing.png" alt="Go Speed Racer at Pinhead Wall on Mt. Lemmon">
+</div>
