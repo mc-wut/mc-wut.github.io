@@ -200,29 +200,71 @@ The use of `[]{0,3}` in `owner-suface-3` is allowing any three tokens to occur i
 This is an example output of that rule.
 ![owner-surface-3 capturing an instance of Project Owner](/images/owner-capture.png)
 
-### Example 3: 
-
-'''yaml
-
-'''
-
-
-snippet from pdf where it's applied
-
-
-
-
 ## FILTERING AND SECTION GRAMMAR
+Beyond just capturing these fields, we needed to present it to the customer in a digestible way. One of the drawbacks of my approach was that it might capture the *Bid Date* in several different locations in the document, so we needed to resolve that.
 
-** LINK TO WMLUTILS GOES AT THE TOP**
+Another was that **Project Duration** was a particularly important field to the customer, but they only wanted the duration of the entire project, and there were typically smaller durations included in the text that were in syntactically identical positions. I wrote a few functions for comparing these values in [`utils.py`](https://github.com/mc-wut/internship_files/blob/b4b956a74a035f2c5357a4f483b9a7c2eca65aa6/utils.py#L63).
 
-DESCRIBE HOW FILTRATION AFFECTS END-USER EXPERIENCE (DUPLICATE ETC)
+```python
+    @staticmethod
+    def _filter_duplicate_extractions(
+        unfiltered_extractions: list[schema.Extraction],
+    ) -> list[schema.Extraction]:
+        """Removes duplicate extractions"""
+        # Filter for duplicate extractions
+        filtered_extractions = []
+        variable_value_pairs = set()
+        for ex in unfiltered_extractions:
+            if (ex.variable, ex.value) not in variable_value_pairs:
+                variable_value_pairs.add((ex.variable, ex.value))
+                filtered_extractions.append(ex)
+        return filtered_extractions
 
-DESCRIBE HOW FILTERING ALSO HELPED WITH THE DIFFERENTIATION OF EXTRACTIONS FROM ADDENDA VS GENERAL DOCUMENTS WITHOUT A DIRECT NEED FOR USER INPUT
+    @staticmethod
+    def _duration_filter(
+        extractions: list[schema.Extraction],
+    ) -> list[schema.Extraction]:
+        """Returns the longest duration extraction"""
+        measure_duration = lambda ex: (float("".join(filter(str.isdigit, ex.value))))
+        max_duration = (-1, None)
+        for ex in extractions:
+            n = measure_duration(ex)
+            if n > max_duration[0]:
+                max_duration = (n, ex)
+        longest: schema.Extraction = max_duration[-1]
+        return longest
+```
+
+Also it was important ot the customer that should certain fields occur in an addendum, that they are flagged differently. This led to the creation of our [`section_grammar.yml`](https://github.com/mc-wut/internship_files/blob/main/section_grammar.yml).
+
+To flag *Addenda* we applied `section_grammar.yml` to the processed text before applying `variable grammar.yml`. Then the api would call `WMLUtils.section_determiner()`, to populate a field called `section:` which the only valid labels for were `Unknown` and `Addenda`. This with the mention label were produce a final, end-user visible label from a schema not included in this documentation.
+
+```python
+    def section_determiner(mns: list[Mention]) -> str:
+        """section_determiner checks to see what the earliest match is for our
+        section_grammar, presuming that a section name is likely to appear in the
+        header or title of a doc. If there is no match in the first 200 characters,
+        section-determiner returns "Unknown".
+        """
+        if not mns:
+            return schema.SectionLabel.UNKNOWN
+        else:
+            # Looking at offsets
+            offset_dict = {}
+            for mn in mns:
+                offset_dict[mn.char_start_offset] = mn.label
+            key = min(offset_dict.keys())
+            if key <= 200:
+                return schema.SectionLabel.label_map(offset_dict[key])
+            else:
+                return schema.SectionLabel.UNKNOWN
+```
+
+
+
 
 ## FINAL PRODUCT
 
-SHOW EXAMPLE CONTRACTED DOC (HIGHLIGHTED EXTRACTION FIELDS????)
 
 THEN SHOW THE OUTPUT OF THE LOCAL SYSTEM. (TEXT OR IMAGE???)
 
