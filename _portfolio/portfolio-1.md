@@ -83,7 +83,7 @@ From these documents our clients wanted ten different fields extracted.
 Each of the rules in our [`variable_grammar.yml`](https://github.com/mc-wut/internship_files/blob/main/variable_grammar.yml) is for the capture of these variables as they occur in the texts. 
 
 ##  Variable Grammar
-It would be tedious and unnecessary to cover the detail of every rule in `variable_grammar.yml`, so instead I will highlight the process for just a few.
+It would be tedious and unnecessary to cover the detail of every rule in `variable_grammar.yml`, so instead I will highlight the process for a few rules to give a general sense, and after these explanations any other questions should be able to be answered by examining the code.
 
 
 ### Example 1: Regex for Dollar - Engineer's Estimate
@@ -137,11 +137,70 @@ This *Event-Mention* looks for our `@Dollars` regex that are `nsubj`, `nmod_of`,
 
 ![Engineer's Estimate dependency graph](/images/engineers-estimate-diagram.png)
 
-### Example 2: Project Owner 
+Engineer's Estimate was one of the cleaner examples of these, I was able to capture all instances of the Estimate with one rule. Most other examples required a few rules to catch all the cases.
 
-snippet from pdf where it's applied
+### Example 2: Project Owner - Surface Capture
+There were three different rules that were used to capture *Project Owner*, but the most successful was a surface level rule that captured a string that occured in the contract documents frequently. 
 
-### Example 3: Project Owner - A Surface Example
+The first part is a series of base rules for `@Organization`, attempting to capture the Companies, Municipalities, Counties, etc involved in these deals. 
+
+```yaml
+  - name: "org-ner-basic"
+    label: Organization
+    type: token
+    priority: 1
+    keep: false
+    example: "Placer County Water Agency"
+    pattern: |
+      [entity=B-ORG] [entity=I-ORG]* [tag=NNP]?
+
+  - name: "org-surface-1"
+    label: Organization
+    type: token
+    priority: 1
+    keep: false
+    example: "Town of Windsor | County of Yolo | University of Arizona"
+    pattern: |
+      ([lemma=city]|[lemma=town]|[lemma=university]|[lemma=county]) [lemma=of] [tag=NNP]
+  
+  - name: "org-surface-2"
+    label: Organization
+    type: token
+    priority: 1 
+    keep: false
+    example: "Tranquility Public Utility Districty | Yolo County"
+    pattern: |
+      [tag=NNP]{1,3} ([lemma=district]|[lemma=county]|[lemma=university])
+```
+
+Named Entity Recognition was only so successful at catching these, especially with strings containing regular English words like "Public Utility" or "Town of." In the end relatively hard coded lemma capture was required to achieve consistent capture. 
+
+It took 7 rules to capture the project Owner across 12 sample documents.
+
+```yaml
+  - name: "owner-event-2"
+    label: ProjectOwner
+    priority: 3
+    example: "The Malaga County Water District is soliciting bids for ... "
+    pattern: |
+      trigger = [lemma=solicit] | [lemma=accept]
+      dummy_bid:Bid = >dobj 
+      project_owner:Organization = >nsubj
+
+  - name: "owner-surface-3"
+    label: ProjectOwner
+    type: token
+    priority: 2
+    example: "Tranquility Public Utility District, hereinafter reffered to as owner"
+    pattern: |
+      @Organization (?=([]{0,3} ([lemma=refer]|[lemma=call]) []{0,3} @Owner))
+```
+The use of `[]{0,3}` in `owner-suface-3` is allowing any three tokens to occur in that spot. 
+
+This is an example output of that rule.
+![owner-surface-3 capturing an instance of Project Owner](/images/owner-capture.png)
+
+### Example 3: 
 
 '''yaml
 

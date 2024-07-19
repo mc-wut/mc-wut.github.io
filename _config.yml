@@ -8,7 +8,7 @@
 # Site Settings
 remote_theme                    : minima
 minima                   :
-  skin: dark
+skin                     : dark
 locale                   : "en-US"
 title                    : "Matt Evans-McLaughlin | NLP"
 title_separator          : "-"
