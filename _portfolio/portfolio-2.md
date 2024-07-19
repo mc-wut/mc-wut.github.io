@@ -1,24 +1,15 @@
 ---
 title: "Page Sorting of Public Works Specification PDFs based on text-features"
-excerpt: "Filtering pages for information extraction using logistic regression and a custom vectorization of text. <br/><img src='/images/classifier-post-image.png'>"
+excerpt: "Text Based Section Classification of Public Works Construction Documents. <br/><img src='/images/classifier-post-image.png'>"
 collection: portfolio
 ---
 
-This is an item in your portfolio that describes your internship. It can have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML.
+In Spring 2024 I was working for LUM AI. Initially I was tasked with building an ODIN grammar that could be applied to Construction Contract Documents and Specifications to extract a few specific pieces of data for a customer. I knew going in that the information we were looking for would be on a small number of pages in large PDFs, but I didn't anticipate the difference. At the end of the project it was obvious that there was a greater disparity than anticipated. On even the largest documents (around 700 pages), we were only pulling data of of 7-10 pages. 
 
-As you're describing the content of your internship, be sure to describe how you were able to apply the concepts and skills you acquired from HLT courses to your internship. You'll also want to describe the things that you learned from the internship itself that might help you in future work.
+Each page that didn't contain relevent data was still being, segmented, tokenized, parsed, tagged, and run through Named Entity Recognition. Which means that even in the best case 90% of our processing resources and time were being wasted. I proposed an extension to the project that would run a simple classifier over the raw text of each page of the PDF, and attempt to sort them into *annotate* and *don't annotate* bins. This ended up being changed somewhat to classifying the pdfs along existing section lines, as that would be relevant to other projects being built for this text as well. 
 
-## Evaluation criteria
-Remember that each of the two projects in your portfolio will be evaluated on these points:
+The texts we were working with were not uniform but followed one of two different section schemes. They contained either a 5 or 6 digit section code, which corresponded to a type of information. 
 
-* **Length**: A summary of the project goals, technology used, and outcomes, as appropriate for a general technical audience, between 1000 and 3000 words (not counting code)
-* **Content**: student’s experience demonstrates the learning outcomes for the MSHLT program [^note]
-* **Code**: Code is contained in the site, or a link to the code (such as in a GitHub repository) exists on the site.
-* **Professionalism**: Free of grammatical, mechanical, and stylistic issues
-* **Above and beyond**: How well does this component communicate the most relevant features?
+**ScreenGrabs of different section types.**
 
-[^note]: The learning outcomes of the MSHLT program are:
-    
-    1. Students will demonstrate programming skills for the workplace.
-    2. Students will be able to use fundamental algorithms and concepts in Natural Language Processing.
-    3. Students will show knowledge of tools and packages used in Natural Language Processing.
+As an extension of my work at LUM AI, I built a `Text Based Page Classifier` 
