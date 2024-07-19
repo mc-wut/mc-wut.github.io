@@ -53,22 +53,22 @@ Complex rules combine several rules or the occurrence of a previous rule in a sp
       dummy_bid:Bid = (>dobj|>nsubjpass|>nsubj) (>nmod_for)?
       time:Time = (>nmod_at|>nmod_to)? (>nmod_of)? (>nmod_until|>/^nmod/|>dep)? (>nummod|>compound)?
 ```
-In this example we've got a 'bid' rule and a 'time' rule being utilized as parts of an **Event-Mention**.
+In this example, we have a 'bid' rule and a 'time' rule utilized as parts of an **Event-Mention**.
 
 ![Bid-Time rule diagram](/images/internship-post-image.png)
 
 After applying the grammar (set of all rules) to the annotated document, we are left with our **Mentions**. 
 
-In this project, Odin **Mentions** were then filtered and pruned into **Extractions**, the end product for users. The initial and main mechanism for filtering rules is theh ```keep:``` flag. Which defaults to True. If you are curious about seeing which of our (admittedly many) rules were reaching end users, that is the easiest way to tell.  
+In this project, Odin **Mentions** are filtered and pruned into **Extractions**, the end product for users. The initial and main mechanism for filtering rules is a ```keep:``` flag, which defaults to True. If you are curious about seeing which of our (admittedly many) rules were reaching end users, that is the easiest way to tell.  
 
 ## Documents and Extractions	 
 The documents we were processing did not follow a universal standard but came in two main types. 
 
 [Type A](https://mc-wut.github.io/files/bowman-specs-contract-docs.pdf) was an expansive tome (200-700) containing many sections on various technical requirements, and a single large section covering the legal agreements between various construction companies and the government entity contracting the work. 
 
-[Type B](https://mc-wut.github.io/files/ceres-addendum.pdf)  was an "Addendum" a 1-15 page document, that indicated that something had changed in the original document. A mistake or typo occured in the original document, or some circumstance had changed. This will be important later.
+[Type B](https://mc-wut.github.io/files/ceres-addendum.pdf)  was an "Addendum" a 1-15 page document, that indicated that something had changed in the original document. A mistake or typo occurred in the original document, or some circumstance had changed. This will be important later.
 
-From these documents our clients wanted ten different fields extracted.
+From these documents, our customer wanted ten different fields extracted.
     - Project Name
     - Project Owner
     - Project Duration
@@ -78,16 +78,16 @@ From these documents our clients wanted ten different fields extracted.
     - Engineer's Estimate
     - Engineer of Record
     - Qualifications and Concerns
-    - Liquidated Damagese
+    - Liquidated Damages
 
-Each of the rules in our [`variable_grammar.yml`](https://github.com/mc-wut/internship_files/blob/main/variable_grammar.yml) is for the capture of these variables as they occur in the texts. 
+Each of the rules in [`variable_grammar.yml`](https://github.com/mc-wut/internship_files/blob/main/variable_grammar.yml) contributes to the capture of these variables as they occur in the texts. 
 
 ##  Variable Grammar
-It would be tedious and unnecessary to cover the detail of every rule in `variable_grammar.yml`, so instead I will highlight the process for a few rules to give a general sense, and after these explanations any other questions should be able to be answered by examining the code.
+It would be tedious and unnecessary to cover the detail of every rule in `variable_grammar.yml`, so instead I will highlight the process for a few rules to give a general sense. After these explanations, any other questions should be able to be answered by examining the code.
 
 
 ### Example 1: Regex for Dollar - Engineer's Estimate
-The *Engineer's Estimate* is the Engineer of Record's estimate for how much the project will cost overall. It shows up in a variety of different formats, and needs to be differentiated from *Liquidated Damages* which is also a dollar amount. The two differed mainly by length.
+The *Engineer's Estimate* is the Engineer of Record's estimate for how much the project will cost overall. It shows up in a variety of different formats and needs to be differentiated from *Liquidated Damages* which is also a dollar amount. The two differed mainly by length.
 
 ```yaml
   - name: "5-8-digit-dollar"
@@ -140,7 +140,7 @@ This *Event-Mention* looks for our `@Dollars` regex that are `nsubj`, `nmod_of`,
 Engineer's Estimate was one of the cleaner examples of these, I was able to capture all instances of the Estimate with one rule. Most other examples required a few rules to catch all the cases.
 
 ### Example 2: Project Owner - Surface Capture
-There were three different rules that were used to capture *Project Owner*, but the most successful was a surface level rule that captured a string that occured in the contract documents frequently. 
+There were three different rules that were used to capture *Project Owner*, but the most successful was a surface-level rule that captured a string that occurred in the contract documents frequently. 
 
 The first part is a series of base rules for `@Organization`, attempting to capture the Companies, Municipalities, Counties, etc involved in these deals. 
 
@@ -173,7 +173,7 @@ The first part is a series of base rules for `@Organization`, attempting to capt
       [tag=NNP]{1,3} ([lemma=district]|[lemma=county]|[lemma=university])
 ```
 
-Named Entity Recognition was only so successful at catching these, especially with strings containing regular English words like "Public Utility" or "Town of." In the end relatively hard coded lemma capture was required to achieve consistent capture. 
+Named Entity Recognition was only so successful at catching these, especially with strings containing regular English words like "Public Utility" or "Town of." In the end, relatively hard-coded lemma rule was required to achieve consistent capture. 
 
 It took 7 rules to capture the project Owner across 12 sample documents.
 
@@ -195,7 +195,7 @@ It took 7 rules to capture the project Owner across 12 sample documents.
     pattern: |
       @Organization (?=([]{0,3} ([lemma=refer]|[lemma=call]) []{0,3} @Owner))
 ```
-The use of `[]{0,3}` in `owner-suface-3` is allowing any three tokens to occur in that spot. 
+The use of `[]{0,3}` in `owner-suface-3` matches any three tokens that occur in that spot. 
 
 This is an example output of that rule.
 ![owner-surface-3 capturing an instance of Project Owner](/images/owner-capture.png)
@@ -203,7 +203,7 @@ This is an example output of that rule.
 ## FILTERING AND SECTION GRAMMAR
 Beyond just capturing these fields, we needed to present it to the customer in a digestible way. One of the drawbacks of my approach was that it might capture the *Bid Date* in several different locations in the document, so we needed to resolve that.
 
-Another was that **Project Duration** was a particularly important field to the customer, but they only wanted the duration of the entire project, and there were typically smaller durations included in the text that were in syntactically identical positions. I wrote a few functions for comparing these values in [`utils.py`](https://github.com/mc-wut/internship_files/blob/b4b956a74a035f2c5357a4f483b9a7c2eca65aa6/utils.py#L63).
+Another was that **Project Duration** was a particularly important field to the customer, but only the duration of the entire project. Typically smaller durations were included in the text in syntactically identical positions. I wrote a few functions for comparing these values in [`utils.py`](https://github.com/mc-wut/internship_files/blob/b4b956a74a035f2c5357a4f483b9a7c2eca65aa6/utils.py#L63).
 
 ```python
     @staticmethod
@@ -235,9 +235,9 @@ Another was that **Project Duration** was a particularly important field to the 
         return longest
 ```
 
-Also it was important ot the customer that should certain fields occur in an addendum, that they are flagged differently. This led to the creation of our [`section_grammar.yml`](https://github.com/mc-wut/internship_files/blob/main/section_grammar.yml).
+It was also important that should certain fields occur in an addendum, that they were flagged differently. This led to the creation of our [`section_grammar.yml`](https://github.com/mc-wut/internship_files/blob/main/section_grammar.yml).
 
-To flag *Addenda* we applied `section_grammar.yml` to the processed text before applying `variable grammar.yml`. Then the api would call `WMLUtils.section_determiner()`, to populate a field called `section:` which the only valid labels for were `Unknown` and `Addenda`. This with the mention label were produce a final, end-user visible label from a schema not included in this documentation.
+To flag *Addenda* we applied `section_grammar.yml` to the processed text before applying `variable grammar.yml`. Then the API would call `WMLUtils.section_determiner()`, to populate a field called `section:` which the only valid labels for were `Unknown` and `Addenda`. This with the mention label were used to produce a final, end-user visible label from a schema not included in this documentation.
 
 ```python
     def section_determiner(mns: list[Mention]) -> str:
@@ -261,7 +261,8 @@ To flag *Addenda* we applied `section_grammar.yml` to the processed text before 
 ```
 
 ## Final Product
-The end result of the project was an API to which a pdf could be uploaded for processing and it would return a json like the following output for our file [bowman-all-extractions.pdf](/files/bowman-all-extractions.pdf). 
+![the interface](/images/api-screenshot.png)
+The end result of the project was an API to which a PDF could be uploaded for processing and it would return a JSON like the following output for our file [bowman-all-extractions.pdf](/files/bowman-all-extractions.pdf). 
 
 ```json
 [
@@ -332,13 +333,13 @@ The end result of the project was an API to which a pdf could be uploaded for pr
 ]
 ```
 ## Room for Improvement
-While all the objectives for the internship were met, there is room for improvment in a couple of places.
+While all the objectives for the internship were met, there is room for improvement in a couple of places.
 ### Efficiency
-Ultimately our system was relatively slow. It could take up to an hour to process one of the larger docs. Which is frustrating because the information we're looking for was could typically be found in 5-10 pages of the docs. With a processing speed of around 4.5 seconds per page, it would be a lot nicer to only wait a minute rather than an hour. 
+Ultimately our system was relatively slow. It could take up to an hour to process one of the larger docs. This is especially nagging because the our target extractions could typically be found in 5-10 pages of the docs. With a processing speed of around 4.5 seconds per page, it would be a lot nicer to only wait a minute rather than an hour. 
 ### Section-Aware Processing
-Another issue was the risk of producing too many extractions. If we could work on identifying the portions of the document most likely to have our information, we could write rules that are more general, reducing the chance they would incorrectly match in the wrong section of the document. Getting page numbers involved might have had a significant impact, as the first 10 pages of each document often contained about half of our extractions. Utlimately that required changes to the pdf-reading system which was outside of the scope of the project. 
+Another issue was the risk of producing too many extractions. If we could work on identifying the portions of the document most likely to have our information, we could write syntactic rules that are more general, reducing the chance they would incorrectly match in the wrong section of the document. Getting page numbers involved might have had a significant impact, as the first 10 pages of each document often contained about half of our extractions. Ultimately that required changes to the pdf-reading system which was outside of the scope of the project. 
 
-[Code Relevent to this Project](https://github.com/mc-wut/internship_files/tree/main)
+[Code Relevant to this Project](https://github.com/mc-wut/internship_files/tree/main)
 
 <!-- This is an item in your portfolio that describes your internship. It can have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML.
 
