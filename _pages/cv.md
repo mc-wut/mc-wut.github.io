@@ -8,53 +8,18 @@ redirect_from:
 ---
 
 {% include base_path %}
+## Education
+### BA Linguistics with Computer Science Minor &ndash; University of Arizona (2019-2023)
+As an undergrad, I took particular joy in studying Semantics and Pragmatics, particularly Quantifier Scope. I had the opportunity to work with Dr. Robert Henderson on several independent studies including a survey of the most influential papers in Semantics (a very challenging favorite being *The Proper Treatment of Quantification in Regular English* by Richard Montague), and some basic work on A corpus of Uspanteko. I hope to have the opportunity to contribute to research on under-resourced languages again in the future. 
+### MS Human Langauge Technology &ndash; University of Arizona (2022-2024)
+I enrolled in the Accelerated Master's of Human Language Technology in Fall 2022 while completing my Bachelor's. The program consisted of varied classes in Linguistics as well as Machine Learning and programming with a Linguistic focus. 
 
-Education
-======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+## Work Experience
+### 2024 - Now
+In Spring 2024 I was brought on as a Natural Language Processing / Machine Learning intern for Lum AI. I worked on an ODIN-based extraction system for a few relevant details contained in technical documents ranging from 5-700 pages. It was an exciting opportunity to put some of my syntactic knowledge to work as many of the rules were based on a combination of Named-Entity-Recognition, Part-of-Speech tagging, and Universal Dependency systems.
 
-Work experience
-======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+### 2010-2020
+Before returning to school in 2020 I worked in a variety of Food and Beverage jobs including managing several cocktail programs/bars (Society Lounge Cleveland, Welcome Diner Tucson, among others) working as a "Mezcal Librarian" at El Crisol and as a Brewer-Maltster-Distiller of Single Malt at Whiskey Del Bac. The pace and demand of all of those jobs on both an informational and in-the-moment technical level encouraged me to go back to school.
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-  
-Skills
-======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
-
-Publications
-======
-  # Can be listed manually, or generated from site elements using the following code: (only if you add these components back in)
-  <ul>{% for post in site.publications %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Talks
-======
-  <ul>{% for post in site.talks %}
-    {% include archive-single-talk-cv.html %}
-  {% endfor %}</ul>
-  
-Teaching
-======
-  <ul>{% for post in site.teaching %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
-  
-Service and leadership
-======
-* Currently signed in to 43 different slack teams
+## Skills
+Machine Learning, Computational Linguistics, Python, Pytorch, Scikit-Learn, Java, Pandas, Perl
