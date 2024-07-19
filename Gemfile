@@ -18,7 +18,9 @@ gem "jekyll"
 
 gem "jekyll-remote-theme"
 
-bundle update
+gem "minima"
+
+bundle
 
 gem "wdm", "~> 0.1.0" if Gem.win_platform?
 
