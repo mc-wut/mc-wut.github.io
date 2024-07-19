@@ -260,13 +260,84 @@ To flag *Addenda* we applied `section_grammar.yml` to the processed text before 
                 return schema.SectionLabel.UNKNOWN
 ```
 
+## Final Product
+The end result of the project was an API to which a pdf could be uploaded for processing and it would return a json like the following output for our file [bowman-all-extractions.pdf](/files/bowman-all-extractions.pdf). 
+
+```json
+[
+  {
+    "variable": "Project Owner",
+    "value": "Placer County Water Agency",
+    "document_name": "bowman-all-extractions.pdf",
+    "section": "Unknown",
+    "page": 1,
+    "html": null
+  },
+  {
+    "variable": "Project Owner",
+    "value": "Placer County Water Agency",
+    "document_name": "bowman-all-extractions.pdf",
+    "section": "Unknown",
+    "page": 1,
+    "html": null
+  },
+  {
+    "variable": "Bid Time",
+    "value": "2:00 p.m.",
+    "document_name": "bowman-all-extractions.pdf",
+    "section": "Unknown",
+    "page": 1,
+    "html": null
+  },
+  {
+    "variable": "Bid Date",
+    "value": "October 25, 2023",
+    "document_name": "bowman-all-extractions.pdf",
+    "section": "Unknown",
+    "page": 1,
+    "html": null
+  },
+  {
+    "variable": "Engineer's Estimate",
+    "value": "$1,750,000",
+    "document_name": "bowman-all-extractions.pdf",
+    "section": "Unknown",
+    "page": 1,
+    "html": null
+  },
+  {
+    "variable": "Project Duration",
+    "value": "450",
+    "document_name": "bowman-all-extractions.pdf",
+    "section": "Unknown",
+    "page": 2,
+    "html": null
+  },
+  {
+    "variable": "Project Name",
+    "value": "Bowman WTP",
+    "document_name": "bowman-all-extractions.pdf",
+    "section": "Unknown",
+    "page": 5,
+    "html": null
+  },
+  {
+    "variable": "Project Location",
+    "value": "595 Christian Valley Rd,\nBowman, CA, 95602",
+    "document_name": "bowman-all-extractions.pdf",
+    "section": "Unknown",
+    "page": 6,
+    "html": null
+  }
+]
+```
 
 
+## Room for Improvement
+### Efficiency
+### 
 
-## FINAL PRODUCT
 
-
-THEN SHOW THE OUTPUT OF THE LOCAL SYSTEM. (TEXT OR IMAGE???)
 
 [Code Relevent to this Project](https://github.com/mc-wut/internship_files/tree/main)
 
