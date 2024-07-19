@@ -299,7 +299,7 @@ The end result of the project was an API to which a pdf could be uploaded for pr
   },
   {
     "variable": "Engineer's Estimate",
-    "value": "$1,750,000",
+    "value": "$1,750,ld 000",
     "document_name": "bowman-all-extractions.pdf",
     "section": "Unknown",
     "page": 1,
@@ -331,13 +331,12 @@ The end result of the project was an API to which a pdf could be uploaded for pr
   }
 ]
 ```
-
-
 ## Room for Improvement
+While all the objectives for the internship were met, there is room for improvment in a couple of places.
 ### Efficiency
-### 
-
-
+Ultimately our system was relatively slow. It could take up to an hour to process one of the larger docs. Which is frustrating because the information we're looking for was could typically be found in 5-10 pages of the docs. With a processing speed of around 4.5 seconds per page, it would be a lot nicer to only wait a minute rather than an hour. 
+### Section-Aware Processing
+Another issue was the risk of producing too many extractions. If we could work on identifying the portions of the document most likely to have our information, we could write rules that are more general, reducing the chance they would incorrectly match in the wrong section of the document. Getting page numbers involved might have had a significant impact, as the first 10 pages of each document often contained about half of our extractions. Utlimately that required changes to the pdf-reading system which was outside of the scope of the project. 
 
 [Code Relevent to this Project](https://github.com/mc-wut/internship_files/tree/main)
 
