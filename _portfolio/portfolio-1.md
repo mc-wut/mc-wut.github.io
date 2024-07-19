@@ -1,7 +1,7 @@
 ---
 title: "Information Extraction from long texts using ODIN"
-excerpt: "Capturing specific entities, locations and figures in text extracted from PDFs using syntactic rules. <br/><img src='/images/internship-post-image.png'>"
-collection: portfolio
+excerpt: "Capturing specific entities, locations and figures in text extracted from PDFs using syntactic rules. ![Internship Post Image](/images/internship-post-image.png)"  
+collection: portfolio  
 ---
 
 The task of my internship with LUM AI was to create the grammar and extraction filters for an ODIN-based Information Extraction system. 
@@ -55,7 +55,7 @@ Complex rules combine several rules or the occurrence of a previous rule in a sp
 ```
 In this example we've got a 'bid' rule and a 'time' rule being utilized as parts of an **Event-Mention**.
 
-[Bid-Time rule diagram](https://mc-wut.github.io/images/internship-post-image.png)
+![Bid-Time rule diagram](/images/internship-post-image.png)
 
 After applying the grammar (set of all rules) to the annotated document, we are left with our **Mentions**. 
 
@@ -78,13 +78,80 @@ From these documents our clients wanted ten different fields extracted.
     - Engineer's Estimate
     - Engineer of Record
     - Qualifications and Concerns
-    - Liquidated Damages
+    - Liquidated Damagese
 
 Each of the rules in our [`variable_grammar.yml`](https://github.com/mc-wut/internship_files/blob/main/variable_grammar.yml) is for the capture of these variables as they occur in the texts. 
 
-##  Variable GRAMMAR (RENAME SECTION??)
+##  Variable Grammar
+It would be tedious and unnecessary to cover the detail of every rule in `variable_grammar.yml`, so instead I will highlight the process for just a few.
 
-CHERRY PICK A COUPLE COOL RULES TO GO OVER HOW SMOART YOU BE
+
+### Example 1: Regex for Dollar - Engineer's Estimate
+The *Engineer's Estimate* is the Engineer of Record's estimate for how much the project will cost overall. It shows up in a variety of different formats, and needs to be differentiated from *Liquidated Damages* which is also a dollar amount. The two differed mainly by length.
+
+```yaml
+  - name: "5-8-digit-dollar"
+    label: Dollars
+    priority: 1
+    type: token
+    keep: false
+    example: "$1,000,000"
+    pattern: |
+      [tag=$] /\d{1,3},*\d{3},*(\d{3})*/
+```
+
+This rule is then combined with a setting rule that looks for phrasing we found around *Engineer's Estimates*. 
+
+```yaml
+  - name: "estimated-cost"
+    label: Cost 
+    priority: 1
+    type: token
+    keep: false
+    example: "estimated cost"
+    pattern: |
+      [lemma=estimate] []? [lemma=cost]
+  
+  - name: "estimate-opinion"
+    label: Cost
+    priority: 1 
+    type: token
+    keep: false
+    example: "engineers opinion"
+    pattern: |
+      ([lemma=engineer]|[lemma=budget]) [tag=POS]* []? ([lemma=opinion]|[lemma=estimate])
+```
+
+Note that the **label** for both `estimated-cost` and `estimate-opinion` is `Cost`. This allows us to reference either of them in a later rule.
+
+```yaml
+  - name: "engineers-estimate"
+    label: EngineersEstimate 
+    priority: 2
+    pattern: |
+      trigger = @Cost
+      dollars:Dollars = (<nsubj|>nmod_of|>advcl)
+```
+
+This *Event-Mention* looks for our `@Dollars` regex that are `nsubj`, `nmod_of`, or `advcl` of any occurences of  `@Cost` 
+
+![Engineer's Estimate dependency graph](/images/engineers-estimate-diagram.png)
+
+### Example 2: Project Owner 
+
+snippet from pdf where it's applied
+
+### Example 3: Project Owner - A Surface Example
+
+'''yaml
+
+'''
+
+
+snippet from pdf where it's applied
+
+
+
 
 ## FILTERING AND SECTION GRAMMAR
 
