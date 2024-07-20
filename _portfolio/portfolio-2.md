@@ -21,13 +21,13 @@ The script in [`build_dataset.py`](https://github.com/mc-wut/internship_files/bl
 
 [`Section_Label.to_section_name()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/build_dataset.py#L60-L124) contained a mapping of our different section schemas (5 or 6-digit section numbers depending on which format they followed) to English section names.
 
-The occasional page lacking a section number necessitated the function [`confirm_continuous_section`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/build_dataset.py#L188-L209) as a sanity check. It checked if pages 234 and 236 were both in **ELECTRICAL** it made sure that page 235 wasn't accidentally in **TRANSPORTATION**
+The occasional page lacking a section number necessitated the function [`confirm_continuous_section`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/build_dataset.py#L188-L209) as a sanity check. It checked if pages 234 and 236 were both in *ELECTRICAL* it made sure that page 235 wasn't accidentally in *TRANSPORTATION*
 ```python
 
 ```
 
 
-This got us most of the way there. However, the dataset still needed a good amount of hand correction. Many of the documents didn't have a label on their **BIDDING AND CONTRACT DOCUMENTS** sections, which were the most important sections for our purposes, and some sections had multiple consecutive pages missing section numbers, which is more than `confirm_continuous_section` could account for. 
+This got us most of the way there. However, the dataset still needed a good amount of hand correction. Many of the documents didn't have a label on their *BIDDING AND CONTRACT DOCUMENTS* sections, which were the most important sections for our purposes, and some sections had multiple consecutive pages missing section numbers, which is more than `confirm_continuous_section` could account for. 
 
 
 ## Custom Vectorizer
@@ -67,7 +67,7 @@ For classification, we used sklearn's LogisticRegression set to OVR
 ## Results
 We were able to achieve a 0.94 f1 score in the sections we were interested in.
 
-The notable shortcomings here are **ADDENDA** AND **COVER PAGE**. Cover pages tend to lack consistent features, especially features we could capture with `TextBasedFeatureExtractor`. **ADDENDA** tend to resemble **CONTRACT DOCUMENTS**. I suspect that's where the bulk of the errors are. I was very excited that we did so well on **BIDDING AND CONTRACT DOCUMENTS** as those pages often lacked section numbers or anything of significance in their headers or footers. 
+The notable shortcomings here are *ADDENDA* AND *COVER PAGE*. Cover pages tend to lack consistent features, especially features we could capture with `TextBasedFeatureExtractor`. *ADDENDA* tend to resemble *CONTRACT DOCUMENTS*. I suspect that's where the bulk of the errors are. I was very excited that we did so well on *BIDDING AND CONTRACT DOCUMENTS* as those pages often lacked section numbers or anything of significance in their headers or footers. 
 
 ```
 {'char_ngram_range': (5, 6),
@@ -93,7 +93,7 @@ BIDDING AND CONTRACT DOCUMENTS       0.90      0.99      0.94      1156
                   weighted avg       0.92      0.95      0.93      3023
 ```
 
-If you were wondering why I introduced `page_number_features` at all earlier, here's your answer. When we included them they dramatically improved our performance in both **COVER PAGE** and **ADDENDA**.
+If you were wondering why I introduced `page_number_features` at all earlier, here's your answer. When we included them they dramatically improved our performance in both *COVER PAGE* and *ADDENDA*.
 
 
 ```
