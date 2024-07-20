@@ -8,13 +8,6 @@ The task of my internship with LUM AI was to create the grammar and extraction f
 
 The documents that required extraction were technical and contract documents provided by government agencies for the construction of public projects. They covered the details of projects like rebuilding Sewer Lift Pump Stations, adding wells to landfills, and other public construction projects. The client was a construction company looking to streamline their estimate process. The goal was to have the most critical details at a glance rather than digging through these documents, which could be up to 700 pages long.
 
-This blog post will be in four sections.
-
-	1.  A Brief Introduction to ODIN
-	2.  Documents and Extractions
-	3.  Extraction Grammar
-	4.  Section Grammar and Filtering
-
 ## A Brief Introduction to ODIN
 
 [Odin (Open Domain INformer)](https://arxiv.org/abs/1509.07513) is an extraction framework that operates over documents that have been tokenized, sentence-segmented, part of speech tagged, lemmatized, and named entity tagged, and dependency parsed using an NLP pipeline. For a complete introduction see the link, I'll only include some basics in this post.
