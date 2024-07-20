@@ -23,11 +23,11 @@ Since joining the program I've enjoyed putting my Linguistic background to work 
 
 I've been lucky to work with some great professors on side projects as well, working on Authorship Verification projects with Dr. Gus Hahn Powell, and on some simple Uspanteko Corpus manipulation with Dr. Robert Henderson.
 
-I recently completed an internship with LUM AI working in ODIN-based Information Extraction on technical and contract documents, which was an exciting challenge.
+I recently completed an internship with LUM AI working in ODIN-based Information Extraction on technical and contract documents, which was an exciting challenge that ended up involving some Machine Learning as well.
 
-I'm interested in growing my skills in Generative NLP and 
+I'm interested in growing my skills in Generative NLP and HuggingFace Transformers.
 
-If I'm not working or spending time with my family, you can usually find me at [Rocks and Ropes](https://rocksandropes.com/) or on [Mt. Lemmon](https://www.mountainproject.com/area/106822076/mount-lemmon-santa-catalina-mountains), trying to prove you can be both terrified, and climb. 
+If I'm not working or spending time with my family, you can usually find me at [Rocks and Ropes](https://rocksandropes.com/) or on [Mt. Lemmon](https://www.mountainproject.com/area/106822076/mount-lemmon-santa-catalina-mountains) being a pretty okay climber.
 <div style="text-align: center;">
     <img src="/images/climbing.png" alt="Go Speed Racer at Pinhead Wall on Mt. Lemmon">
 </div>
