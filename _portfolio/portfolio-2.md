@@ -4,64 +4,65 @@ excerpt: "Text Based Section Classification of Public Works Construction Documen
 collection: portfolio
 ---
 
-In Spring 2024 I was working for LUM AI. Initially I was tasked with building an ODIN grammar that could be applied to Construction Contract Documents and Specifications to extract a few specific pieces of data for a customer. I knew going in that the information we were looking for would be on a small number of pages in large PDFs, but I didn't anticipate the difference. At the end of the project it was obvious that there was a greater disparity than anticipated. On even the largest documents (around 700 pages), we were only pulling data of of 7-10 pages. 
+In Spring 2024 I was working for LUM AI. Initially, I was tasked with building an ODIN grammar that could be applied to Construction Contract Documents and Specifications to extract a few specific pieces of data for a customer. I knew going in that the information we were looking for would be on a small number of pages in large PDFs, but I didn't anticipate the difference. At the end of the project, it was obvious that there was a greater disparity than anticipated. On even the largest documents (around 700 pages), we were only pulling data of 7-10 pages. 
 
-Each page that didn't contain relevent data was still being, segmented, tokenized, parsed, tagged, and run through Named Entity Recognition. Which means that even in the best case 90% of our processing resources and time were being wasted. I proposed an extension to the project that would run a simple classifier over the raw text of each page of the PDF, and attempt to sort them into *annotate* and *don't annotate* bins. This ended up being changed somewhat to classifying the pdfs along existing section lines, as that would be relevant to other projects being built for this text as well. 
+Each page that didn't contain relevant data was still being, segmented, tokenized, parsed, tagged, and run through Named Entity Recognition, which means that even in the best case 90% of our processing resources and time were being wasted. I proposed an extension to the project that would run a simple classifier over the raw text of each page of the PDF, and attempt to sort them into *annotate* and *don't annotate* bins. This ended up being changed somewhat to classifying the PDFs along existing section lines, as that would be relevant to other projects being built for this text as well. 
 
-The texts we were working with were not uniform but followed one of two different section schemes. They contained either a 5 or 6 digit section code, which corresponded to a type of information. From the original dataset we discluded a document that followed no scheme, at the direction of our customer.
+The texts we were working with were not uniform but followed one of two different section schemes. They contained either a 5 or 6-digit section code, which corresponded to a type of information. From the original dataset, we discluded a document that followed no scheme, at the direction of our customer.
 **ScreenGrabs of different section label types.**
 
 ## Dataset Creation
-In order to train our classifier we obviously had to create a dataset. We had 12 of the larger specs and 16 addenda to build into our dataset. 5120 pages overall. 
+To train our classifier we had to create a dataset. We had 12 larger specs and 16 addenda to build into our dataset. 5120 pages overall. 
 
-The script in `build_dataset.py` **SHOW ME A LINK HERE** was used to start the process of building a dataset.
+The script in `build_dataset.py` **SHOW ME A LINK HERE** was used to start building a dataset.
 
-`Section_Label` is our workhorse class here, an extention of `StrEnum`, for consistency of labels across the dataset.
+`Section_Label` is our workhorse class here, an extension of `StrEnum`, for consistency of labels across the dataset.
 
-`Section_Label.to_section_name()` contained a mapping of our different section schemas (5 or 6 digit sectino numbers depending on which format they followed) to English section names.
+`Section_Label.to_section_name()` contained a mapping of our different section schemas (5 or 6-digit section numbers depending on which format they followed) to English section names.
 
-We had to account for the occasional missing section number, and so included the functino `confirm_continuous_section` **SHOW ME A LINK HERE** as a sort of sanity check. It basically checked if pages 234 and 236 were both in **ELECTRICAL** it made sure that page 235 wasn't accidentally in **TRANSPORTATION**
+The occasional page lacking a section number necessitated the function `confirm_continuous_section` **SHOW ME A LINK HERE** as a sanity check. It checked if pages 234 and 236 were both in **ELECTRICAL** it made sure that page 235 wasn't accidentally in **TRANSPORTATION**
 
-This got us most of the way there. But the dataset still needed a good amount of hand correction. Many of the documents didn't have a label on their **BIDDING AND CONTRACT DOCUMENTS** sections, which were the most important section for our purposes, and some sections had multiple pages in the middle of sections without any section number. 
+This got us most of the way there. However, the dataset still needed a good amount of hand correction. Many of the documents didn't have a label on their **BIDDING AND CONTRACT DOCUMENTS** sections, which were the most important sections for our purposes, and some sections had multiple consecutive pages missing section numbers, which is more than `confirm_continuous_section` could account for. 
+
 
 ## Custom Vectorizer
-We decided the best way to do this was to create an extension of Sci-Kit Learn's `DictVectorizer` in a pipeline with traditional vectorizers. After some experimentation we decided on 'TfidfVectorizer' for our traditional vectorizers. 
+We decided the best way to do this was to create an extension of Sci-Kit Learn's `DictVectorizer` in a pipeline with traditional vectorizers. After experimentation, we decided on 'TfidfVectorizer' for our traditional vectorizers. 
 
 Our custom vectorizer, `TextBasedFeatureExractor`, followed the intuition that there were a handful of important features we could (largely) base our classification on.
-    1. Section Number
-    2. Page Length
-    3. Presence of "Table of Contents"
-    4. Presence of word "Addenda"
-    5. Page number
+ 1. Section Number
+ 2. Page Length
+ 3. Presence of "Table of Contents"
+ 4. Presence of the word "Addenda"
+ 5. Page number
 
-We modified `_to_feature_dictionary()` to check to return a dictionary with these features.
+We modified `_to_feature_dictionary()` to return a dictionary with these features.
 **shortened code snippet from `_to_feature_dictionary()`**
 
 The key helper functions here are:
     
-`check_page_length()` This was really good for helping with occassional blank pages,   "This page intentionaly left blank" pages, and cover pages, which tend to have few characters, but a lot of pertinent extractions.
+`check_page_length()` This was excellent for helping with occasional blank pages,   "This page intentionally left blank" pages, and cover pages, which tend to have few characters, but many pertinent extractions.
 
-`check_addendum()` Which uses a Regex to check for addend* in the header and footer. This one was pretty productive, but probably produced the most cloudy signal. A few times in the dataset it produced false positives.
+`check_addendum()` Which uses a Regex to check for addend* in the header and footer. This one was pretty productive but probably produced the most cloudy signal. A few times in the dataset it produced false positives.
 
 `check_table_of_contents()` Which uses a Regex to check for a "Table of Contents " or "TOC" label.
 
-`check_page_num()` checked if pages were in specific ranges between 1 & 30. Including the page number presented a challenge at the PDF reader level, and there was also concern about documents being combined and that throwing off the classifier. As in the Addenda documents are merged onto the end of a larger spec and then an end user processes that file. As a result we didn't include it in the final version.
+`check_page_num()` checked if pages were in specific ranges between 1 & 30. Including the page number presented a challenge at the PDF reader level, and there was also concern about combined documents throwing off the classifier, for example, a file where Addenda documents are merged onto the end of a larger spec. As a result, we didn't include it in the final version.
 
-`check_section_num()` is the star here and takes a section number and the page of text and checks if they match.
+`check_section_num()` is the star of the custom vectorizer and takes a section number and the page of text and checks if they match.
 
 The compiled dictionary is then transformed. 
 
 ## Pipeline
-Our pipeline is housed in `TextBasedPageClassifer`. It is highly parameterized as that allowed us more ease of testing.
+Our pipeline is housed in `TextBasedPageClassifer`. It is highly parameterized to allow for testing of combinations of different features.
 
-After experimentation with `GridSearch`, we found that using a character-level `TfidfVectorizer` with the range (5,6), a word-level `TfidfVectorizer` with range (1,2) both with `min_df` set to 4 and `max_features` set to 5000 was the optimal configuration. We wanted to use polynomial features, but even at a depth of 2 the feature space was simply too large to compute. Finally we applied sklearn's `SelectKBest` to limit to the best 10,000 features.
+After experimentation with `GridSearch`, we found that using a character-level `TfidfVectorizer` with the range (5,6), a word-level `TfidfVectorizer` with range (1,2) both with `min_df` set to 4 and `max_features` set to 5000 was the optimal configuration. We wanted to use polynomial features, but even at a depth of two the feature space was too large to compute. Finally, we applied sklearn's `SelectKBest` to limit to the best 10,000 features.
 
-For classification we used sklearn's LogisticRegression set to OVR
+For classification, we used sklearn's LogisticRegression set to OVR
 
 ## Results
 We were able to achieve a 0.94 f1 score in the sections we were interested in.
 
-The notable shortcomings here are **ADDENDA** AND **COVER PAGE**. Cover pages tend to lack consistent features, and especially features we could capture with `TextBasedFeatureExtractor`. **ADDENDA** tend to resemble **CONTRACT DOCUMENTS**. I suspect that's where the bulk of the errors are. I was very excited that we were able to to do so well on **BIDDING AND CONTRACT DOCUMENTS** as those pages often lacked section numbers or anything of significance in their headers or footers. 
+The notable shortcomings here are **ADDENDA** AND **COVER PAGE**. Cover pages tend to lack consistent features, especially features we could capture with `TextBasedFeatureExtractor`. **ADDENDA** tend to resemble **CONTRACT DOCUMENTS**. I suspect that's where the bulk of the errors are. I was very excited that we did so well on **BIDDING AND CONTRACT DOCUMENTS** as those pages often lacked section numbers or anything of significance in their headers or footers. 
 
 ```
 {'char_ngram_range': (5, 6),
@@ -86,7 +87,9 @@ BIDDING AND CONTRACT DOCUMENTS       0.90      0.99      0.94      1156
                      macro avg       0.86      0.76      0.79      3023
                   weighted avg       0.92      0.95      0.93      3023
 ```
+
 If you were wondering why I introduced `page_number_features` at all earlier, here's your answer. When we included them they dramatically improved our performance in both **COVER PAGE** and **ADDENDA**.
+
 
 ```
 {'char_ngram_range': (5, 6),
@@ -112,9 +115,11 @@ BIDDING AND CONTRACT DOCUMENTS       0.92      0.99      0.95      1156
                   weighted avg       0.95      0.97      0.96      3023
 ```
 
-It occured to me as we struggled to classify those two targets that they were the only targets locked into certain page lengths. The longest Addendum we had was approximately 25 pages. And while we were treating Cover Pages as a section, it was nver greater than 5 pages. 
+It occurred to me as we struggled to classify those two targets that they were the only targets locked into certain page lengths. The longest Addendum we had was approximately 25 pages. And while we were treating Cover Pages as a section, it was never greater than 5 pages. 
 
 ## Issues
-The main issue with the approach that was used here is that the Contract Documents section ended up being huge in a number of cases. The Contract Documents section also often held a lot of our extractions. The classifier was still successful and useful. But it wasn't quite as effective at cutting processing speed as we hoped. I do wonder about the efficacy of building out a completely different binary dataset comparing pages that contain target extractions against those that do not..
+The main issue with the approach that was used here is that the Contract Documents section ended up being huge in a number of cases. The Contract Documents section also often held a lot of our extractions. The classifier was still successful and useful. But it wasn't quite as effective at cutting processing speed as we hoped. I do wonder about the efficacy of building out a completely different binary dataset comparing pages that contain target extractions against those that do not.
 
-This approach would create a kind of interesting logical loop. The ODIN system matches on certain phrase structure, and then if it worked the classifier would end up searching for those same phrase structures.
+This approach would create an interesting logical loop. The ODIN system matches certain phrase structure, and then if it worked the classifier would end up searching for those same phrase structures.
+
+
