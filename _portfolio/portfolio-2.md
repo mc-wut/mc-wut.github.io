@@ -12,18 +12,20 @@ The texts we were working with were not uniform but followed one of two differen
 ![5-digit Section Number](/images/5-digit-section.png)
 ![6-digit Section Number](/images/6-digit-section.png)
 
-**ScreenGrabs of different section label types.**
-
 ## Dataset Creation
 To train our classifier we had to create a dataset. We had 12 larger specs and 16 addenda to build into our dataset. 5120 pages overall. 
 
-The script in `build_dataset.py` **SHOW ME A LINK HERE** was used to start building a dataset.
+The script in [`build_dataset.py`](https://github.com/mc-wut/internship_files/blob/main/classifiers/build_dataset.py) was used to start building a dataset.
 
-`Section_Label` is our workhorse class here, an extension of `StrEnum`, for consistency of labels across the dataset.
+[`Section_Label`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/build_dataset.py#L9) is our workhorse class here, an extension of `StrEnum`, for consistency of labels across the dataset.
 
-`Section_Label.to_section_name()` contained a mapping of our different section schemas (5 or 6-digit section numbers depending on which format they followed) to English section names.
+[`Section_Label.to_section_name()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/build_dataset.py#L60-L124) contained a mapping of our different section schemas (5 or 6-digit section numbers depending on which format they followed) to English section names.
 
-The occasional page lacking a section number necessitated the function `confirm_continuous_section` **SHOW ME A LINK HERE** as a sanity check. It checked if pages 234 and 236 were both in **ELECTRICAL** it made sure that page 235 wasn't accidentally in **TRANSPORTATION**
+The occasional page lacking a section number necessitated the function [`confirm_continuous_section`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/build_dataset.py#L188-L209) as a sanity check. It checked if pages 234 and 236 were both in **ELECTRICAL** it made sure that page 235 wasn't accidentally in **TRANSPORTATION**
+```python
+
+```
+
 
 This got us most of the way there. However, the dataset still needed a good amount of hand correction. Many of the documents didn't have a label on their **BIDDING AND CONTRACT DOCUMENTS** sections, which were the most important sections for our purposes, and some sections had multiple consecutive pages missing section numbers, which is more than `confirm_continuous_section` could account for. 
 
@@ -31,32 +33,32 @@ This got us most of the way there. However, the dataset still needed a good amou
 ## Custom Vectorizer
 We decided the best way to do this was to create an extension of Sci-Kit Learn's `DictVectorizer` in a pipeline with traditional vectorizers. After experimentation, we decided on 'TfidfVectorizer' for our traditional vectorizers. 
 
-Our custom vectorizer, `TextBasedFeatureExractor`, followed the intuition that there were a handful of important features we could (largely) base our classification on.
+Our custom vectorizer, [`TextBasedFeatureExractor`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L24), followed the intuition that there were a handful of important features we could (largely) base our classification on.
  1. Section Number
  2. Page Length
  3. Presence of "Table of Contents"
  4. Presence of the word "Addenda"
  5. Page number
 
-We modified `_to_feature_dictionary()` to return a dictionary with these features.
-**shortened code snippet from `_to_feature_dictionary()`**
+We modified [`_to_feature_dictionary()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L24-L168) to return a dictionary with these features.
+
 
 The key helper functions here are:
     
-`check_page_length()` This was excellent for helping with occasional blank pages,   "This page intentionally left blank" pages, and cover pages, which tend to have few characters, but many pertinent extractions.
+[`check_page_length()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L171-L176) This was excellent for helping with occasional blank pages,   "This page intentionally left blank" pages, and cover pages, which tend to have few characters, but many pertinent extractions.
 
-`check_addendum()` Which uses a Regex to check for addend* in the header and footer. This one was pretty productive but probably produced the most cloudy signal. A few times in the dataset it produced false positives.
+[`check_addendum()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L191-L197) Which uses a Regex to check for addend* in the header and footer. This one was pretty productive but probably produced the most cloudy signal. A few times in the dataset it produced false positives.
 
-`check_table_of_contents()` Which uses a Regex to check for a "Table of Contents " or "TOC" label.
+[`check_table_of_contents()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L226C1-L235C1) Which uses a Regex to check for a "Table of Contents " or "TOC" label.
 
-`check_page_num()` checked if pages were in specific ranges between 1 & 30. Including the page number presented a challenge at the PDF reader level, and there was also concern about combined documents throwing off the classifier, for example, a file where Addenda documents are merged onto the end of a larger spec. As a result, we didn't include it in the final version.
+[`check_page_num()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L200-L212) checked if pages were in specific ranges between 1 & 30. Including the page number presented a challenge at the PDF reader level, and there was also concern about combined documents throwing off the classifier, for example, a file where Addenda documents are merged onto the end of a larger spec. As a result, we didn't include it in the final version.
 
-`check_section_num()` is the star of the custom vectorizer and takes a section number and the page of text and checks if they match.
+[`check_section_num()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L214-L225) is the star of the custom vectorizer and takes a section number and the page of text and checks if they match.
 
 The compiled dictionary is then transformed. 
 
 ## Pipeline
-Our pipeline is housed in `TextBasedPageClassifer`. It is highly parameterized to allow for testing of combinations of different features.
+Our pipeline is housed in [`TextBasedPageClassifer`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L250). It is highly parameterized to allow for testing of combinations of different features.
 
 After experimentation with `GridSearch`, we found that using a character-level `TfidfVectorizer` with the range (5,6), a word-level `TfidfVectorizer` with range (1,2) both with `min_df` set to 4 and `max_features` set to 5000 was the optimal configuration. We wanted to use polynomial features, but even at a depth of two the feature space was too large to compute. Finally, we applied sklearn's `SelectKBest` to limit to the best 10,000 features.
 
