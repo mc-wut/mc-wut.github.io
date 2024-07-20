@@ -8,6 +8,8 @@ redirect_from:
   - /about.html
 ---
 
+**TARGET LENGTH IS 300-1000 DUMMY!**
+
 # About
 I am a student in the University of Arizona's Human Langauge Technology MS. I hold a Bachelor's in Linguistics with a minor in Computer Science, also from the University of Arizona, where I graduated Magna cum Laude. The Linguistics department did not have official specializations for their undrgraduate degree, I focused particularly in Semantics, studying mostly under Dr. Robert Henderson. In my CS classes I learned core programming concepts as well as Java and Python.
 

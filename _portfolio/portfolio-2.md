@@ -30,9 +30,9 @@ We decided the best way to do this was to create an extension of Sci-Kit Learn's
 Our custom vectorizer, `TextBasedFeatureExractor`, followed the intuition that there were a handful of important features we could (largely) base our classification on.
     1. Section Number
     2. Page Length
-    3. Page Number
-    4. Presence of "Table of Contents"
-    5. Presence of word "Addenda"
+    3. Presence of "Table of Contents"
+    4. Presence of word "Addenda"
+    5. Page number
 
 We modified `_to_feature_dictionary()` to check to return a dictionary with these features.
 **shortened code snippet from `_to_feature_dictionary()`**
@@ -45,6 +45,8 @@ The key helper functions here are:
 
 `check_table_of_contents()` Which uses a Regex to check for a "Table of Contents " or "TOC" label.
 
+`check_page_num()` checked if pages were in specific ranges between 1 & 30. Including the page number presented a challenge at the PDF reader level, and there was also concern about documents being combined and that throwing off the classifier. As in the Addenda documents are merged onto the end of a larger spec and then an end user processes that file. As a result we didn't include it in the final version.
+
 `check_section_num()` is the star here and takes a section number and the page of text and checks if they match.
 
 The compiled dictionary is then transformed. 
@@ -52,10 +54,67 @@ The compiled dictionary is then transformed.
 ## Pipeline
 Our pipeline is housed in `TextBasedPageClassifer`. It is highly parameterized as that allowed us more ease of testing.
 
+After experimentation with `GridSearch`, we found that using a character-level `TfidfVectorizer` with the range (5,6), a word-level `TfidfVectorizer` with range (1,2) both with `min_df` set to 4 and `max_features` set to 5000 was the optimal configuration. We wanted to use polynomial features, but even at a depth of 2 the feature space was simply too large to compute. Finally we applied sklearn's `SelectKBest` to limit to the best 10,000 features.
+
+For classification we used sklearn's LogisticRegression set to OVR
+
 ## Results
-Dig into TextBasedPageClassifier_log.txt for this section. Highlight difference between page number results and non-page number results.
+We were able to achieve a 0.94 f1 score in the sections we were interested in.
+
+The notable shortcomings here are **ADDENDA** AND **COVER PAGE**. Cover pages tend to lack consistent features, and especially features we could capture with `TextBasedFeatureExtractor`. **ADDENDA** tend to resemble **CONTRACT DOCUMENTS**. I suspect that's where the bulk of the errors are. I was very excited that we were able to to do so well on **BIDDING AND CONTRACT DOCUMENTS** as those pages often lacked section numbers or anything of significance in their headers or footers. 
+
+```
+{'char_ngram_range': (5, 6),
+ 'custom_vectorizer': True,
+ 'k': 5000,
+ 'min_df': 4,
+ 'page_number_features': False,
+ 'polynomial_features': True,
+ 'tf_idf_character_vectorizer': True,
+ 'tf_idf_word_vectorizer': True,
+ 'word_ngram_range': (1, 2)}
+                                precision    recall  f1-score   support
+
+                    ELECTRICAL       0.93      0.99      0.96       543
+BIDDING AND CONTRACT DOCUMENTS       0.90      0.99      0.94      1156
+                       ADDENDA       0.71      0.37      0.49       129
+          GENERAL REQUIREMENTS       0.95      0.96      0.96       801
+                    COVER PAGE       0.67      0.28      0.39        36
+           PROCESS INTEGRATION       0.98      1.00      0.99       358
+
+                     micro avg       0.93      0.95      0.94      3023
+                     macro avg       0.86      0.76      0.79      3023
+                  weighted avg       0.92      0.95      0.93      3023
+```
+If you were wondering why I introduced `page_number_features` at all earlier, here's your answer. When we included them they dramatically improved our performance in both **COVER PAGE** and **ADDENDA**.
+
+```
+{'char_ngram_range': (5, 6),
+ 'custom_vectorizer': True,
+ 'k': 5000,
+ 'min_df': 4,
+ 'page_number_features': True,
+ 'polynomial_features': False,
+ 'tf_idf_character_vectorizer': True,
+ 'tf_idf_word_vectorizer': True,
+ 'word_ngram_range': (1, 2)}
+                                precision    recall  f1-score   support 
+
+                    ELECTRICAL       0.98      0.99      0.98       543
+BIDDING AND CONTRACT DOCUMENTS       0.92      0.99      0.95      1156
+                       ADDENDA       0.88      0.82      0.85       129
+          GENERAL REQUIREMENTS       0.95      0.96      0.96       801
+                    COVER PAGE       0.88      0.42      0.57        36
+           PROCESS INTEGRATION       0.99      1.00      0.99       358
+
+                     micro avg       0.95      0.97      0.96      3023
+                     macro avg       0.93      0.86      0.88      3023
+                  weighted avg       0.95      0.97      0.96      3023
+```
+
+It occured to me as we struggled to classify those two targets that they were the only targets locked into certain page lengths. The longest Addendum we had was approximately 25 pages. And while we were treating Cover Pages as a section, it was nver greater than 5 pages. 
 
 ## Issues
-The main issue with the approach that was used here is that the Contract Documents section ended up being huge in a number of cases. The Contract Documents section also often held a lot of our extractions. The classifier was still successful and useful. But I do wonder about the efficacy of building out a completely different dataset where we only highlighted pages that contained our target extractions.
+The main issue with the approach that was used here is that the Contract Documents section ended up being huge in a number of cases. The Contract Documents section also often held a lot of our extractions. The classifier was still successful and useful. But it wasn't quite as effective at cutting processing speed as we hoped. I do wonder about the efficacy of building out a completely different binary dataset comparing pages that contain target extractions against those that do not..
 
 This approach would create a kind of interesting logical loop. The ODIN system matches on certain phrase structure, and then if it worked the classifier would end up searching for those same phrase structures.
