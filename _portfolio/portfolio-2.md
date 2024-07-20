@@ -9,6 +9,9 @@ In Spring 2024 I was working for LUM AI. Initially, I was tasked with building a
 Each page that didn't contain relevant data was still being, segmented, tokenized, parsed, tagged, and run through Named Entity Recognition, which means that even in the best case 90% of our processing resources and time were being wasted. I proposed an extension to the project that would run a simple classifier over the raw text of each page of the PDF, and attempt to sort them into *annotate* and *don't annotate* bins. This ended up being changed somewhat to classifying the PDFs along existing section lines, as that would be relevant to other projects being built for this text as well. 
 
 The texts we were working with were not uniform but followed one of two different section schemes. They contained either a 5 or 6-digit section code, which corresponded to a type of information. From the original dataset, we discluded a document that followed no scheme, at the direction of our customer.
+![5-digit Section Number](/images/5-digit-section.png)
+![6-digit Section Number](/images/6-digit-section.png)
+
 **ScreenGrabs of different section label types.**
 
 ## Dataset Creation
@@ -123,3 +126,4 @@ The main issue with the approach that was used here is that the Contract Documen
 This approach would create an interesting logical loop. The ODIN system matches certain phrase structure, and then if it worked the classifier would end up searching for those same phrase structures.
 
 
+[Relevant Code to this project.](https://github.com/mc-wut/internship_files/tree/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers)
