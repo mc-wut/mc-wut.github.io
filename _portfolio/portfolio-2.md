@@ -9,12 +9,17 @@ In Spring 2024 I was working for [LUM AI](http://lum.ai). Initially, I was taske
 Each page that didn't contain relevant data was still being, segmented, tokenized, parsed, tagged, and run through Named Entity Recognition, which means that even in the best case 90% of our processing resources and time were being wasted. I proposed an extension to the project that would run a simple classifier over the raw text of each page of the PDF, and attempt to sort them into *annotate* and *don't annotate* bins. This ended up being changed somewhat to classifying the PDFs along existing section lines, as that would be relevant to other projects being built for this text as well. 
 
 The texts we were working with were not uniform but followed one of two different section schemes. They contained either a 5 or 6-digit section code, which corresponded to a type of information. From the original dataset, we excluded a document that followed no scheme, at the direction of our customer.
-![5-digit Section Number](/images/5-digit-section.png)
+<!-- ![5-digit Section Number](/images/5-digit-section.png) -->
 <figure>
    <img src="/images/5-digit-section.png" alt="5-digit-section-number"> 
-   <figcaption>This is the caption for the image.</figcaption>
+   <figcaption>5-digit section type</figcaption>
 </figure>
-![6-digit Section Number](/images/6-digit-section.png)
+<figure>
+   <img src="/images/6-digit-section.png" alt="6-digit-section-number"> 
+   <figcaption>6-digit section type</figcaption>
+</figure>
+
+<!-- ![6-digit Section Number](/images/6-digit-section.png) -->
 
 ## Dataset Creation
 To train our classifier we had to create a dataset. We had 12 larger specs and 16 addenda to build into our dataset. 5120 pages overall. 
