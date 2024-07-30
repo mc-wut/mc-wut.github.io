@@ -9,7 +9,7 @@ redirect_from:
 ---
 
 # About
-I am a Master's student in the University of Arizona's Human Language Technology program. In 2023 I graduated Magna cum Laude from the University of Arizona with a BA in Linguistics and a minor in Computer Science.
+I am a Master's student in the University of Arizona's [Human Language Technology](https://linguistics.arizona.edu/ms-hlt) program. In 2023 I graduated Magna cum Laude from the University of Arizona with a BA in Linguistics and a minor in Computer Science.
 
 ## Why Linguistics
 When I went back to school in 2019, I chose to study Linguistics to continue pursuing a lifelong interest in language. As a writer and performer, I had invested so much time in *what* language can do and felt driven to understand *how* language does what it does. 
