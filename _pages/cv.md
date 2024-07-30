@@ -16,9 +16,9 @@ I enrolled in the Accelerated [Master's of Human Language Technology(https://lin
 
 ## Work Experience
 ### 2024 - Now
-In Spring 2024 I was brought on as a Natural Language Processing / Machine Learning intern for Lum AI. I worked on an ODIN-based extraction system for a few relevant details contained in technical documents ranging from 5-700 pages. It was an exciting opportunity to put some of my syntactic knowledge to work as many of the rules were based on a combination of Named-Entity-Recognition, Part-of-Speech tagging, and Universal Dependency systems.
+In Spring 2024 I was brought on as a Natural Language Processing / Machine Learning intern for [Lum AI](http://lum.ai). I worked on an [ODIN](https://github.com/lum-ai/odinson)-based extraction system for a few relevant details contained in technical documents ranging from 5-700 pages. It was an exciting opportunity to put some of my syntactic knowledge to work as many of the rules were based on a combination of Named-Entity-Recognition, Part-of-Speech tagging, and Universal Dependency systems.
 
-### 2010-2020
+### 2010 - 2020
 Before returning to school in 2020 I worked in a variety of Food and Beverage jobs including managing several cocktail programs/bars (Society Lounge Cleveland, Welcome Diner Tucson, among others) working as a "Mezcal Librarian" at El Crisol and as a Brewer-Maltster-Distiller of Single Malt at Whiskey Del Bac. The pace and demand of all of those jobs on both an informational and in-the-moment technical level encouraged me to go back to school.
 
 ## Skills
