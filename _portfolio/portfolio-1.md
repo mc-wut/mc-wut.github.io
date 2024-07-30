@@ -6,7 +6,7 @@ collection: portfolio
 
 The task of my internship with LUM AI was to create the grammar and extraction filters for an ODIN-based Information Extraction system. 
 
-The documents that required extraction were technical and contract documents provided by government agencies for the construction of public projects. They covered the details of projects like rebuilding Sewer Lift Pump Stations, adding wells to landfills, and other public construction projects. The client was a construction company looking to streamline their estimate process. The goal was to have the most critical details at a glance rather than digging through these documents, which could be up to 700 pages long.
+The documents that required extraction were technical and contract documents provided by government agencies for the construction of public projects. They covered the details of projects like rebuilding sewer lift pump stations, adding wells to landfills, and other public construction projects. The client was a construction company looking to streamline their estimate process. The goal was to have the most critical details at a glance rather than digging through these documents, which could be up to 700 pages long.
 
 ## A Brief Introduction to ODIN
 
@@ -329,7 +329,7 @@ The end result of the project was an API to which a PDF could be uploaded for pr
 ## Room for Improvement
 While all the objectives for the internship were met, there is room for improvement in a couple of places.
 ### Efficiency
-Ultimately our system was relatively slow. It could take up to an hour to process one of the larger docs. This is especially nagging because the our target extractions could typically be found in 5-10 pages of the docs. With a processing speed of around 4.5 seconds per page, it would be a lot nicer to only wait a minute rather than an hour. 
+Ultimately our system was relatively slow. It could take up to an hour to process one of the larger docs. This is especially nagging because our target extractions could typically be found in 5-10 pages of the docs. With a processing speed of around 4.5 seconds per page, it would be a lot nicer to only wait a minute rather than an hour. 
 ### Section-Aware Processing
 Another issue was the risk of producing too many extractions. If we could work on identifying the portions of the document most likely to have our information, we could write syntactic rules that are more general, reducing the chance they would incorrectly match in the wrong section of the document. Getting page numbers involved might have had a significant impact, as the first 10 pages of each document often contained about half of our extractions. Ultimately that required changes to the pdf-reading system which was outside of the scope of the project. 
 
