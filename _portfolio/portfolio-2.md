@@ -4,7 +4,7 @@ excerpt: "Text Based Section Classification of Public Works Construction Documen
 collection: portfolio
 ---
 
-In Spring 2024 I was working for LUM AI. Initially, I was tasked with building an ODIN grammar that could be applied to Construction Contract Documents and Specifications to extract a few specific pieces of data for a customer. I knew going in that the information we were looking for would be on a small number of pages in large PDFs, but I didn't anticipate the difference. At the end of the project, it was obvious that there was a greater disparity than anticipated. On even the largest documents (around 700 pages), we were only pulling data of 7-10 pages. 
+In Spring 2024 I was working for [LUM AI](http://lum.ai). Initially, I was tasked with building an [ODIN](https://github.com/lum-ai/odinson) grammar that could be applied to Construction Contract Documents and Specifications to extract a few specific pieces of data for a customer. I knew going in that the information we were looking for would be on a small number of pages in large PDFs, but I didn't anticipate the difference. At the end of the project, it was obvious that there was a greater disparity than anticipated. On even the largest documents (around 700 pages), we were only pulling data of 7-10 pages. 
 
 Each page that didn't contain relevant data was still being, segmented, tokenized, parsed, tagged, and run through Named Entity Recognition, which means that even in the best case 90% of our processing resources and time were being wasted. I proposed an extension to the project that would run a simple classifier over the raw text of each page of the PDF, and attempt to sort them into *annotate* and *don't annotate* bins. This ended up being changed somewhat to classifying the PDFs along existing section lines, as that would be relevant to other projects being built for this text as well. 
 
@@ -30,7 +30,7 @@ The occasional page lacking a section number necessitated the function [`confirm
 This got us most of the way there. However, the dataset still needed a good amount of hand correction. Many of the documents didn't have a label on their *BIDDING AND CONTRACT DOCUMENTS* sections, which were the most important sections for our purposes, and some sections had multiple consecutive pages missing section numbers, which is more than `confirm_continuous_section` could account for. 
 
 
-## Custom Vectorizer
+## Custom Vectorizer“Discluded” rather than “excluded”? I think, for this meaning, “exclude” is more common.
 We decided the best way to do this was to create an extension of Sci-Kit Learn's `DictVectorizer` in a pipeline with traditional vectorizers. After experimentation, we decided on 'TfidfVectorizer' for our traditional vectorizers. 
 
 Our custom vectorizer, [`TextBasedFeatureExractor`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L24), followed the intuition that there were a handful of important features we could (largely) base our classification on.
@@ -62,7 +62,7 @@ Our pipeline is housed in [`TextBasedPageClassifer`](https://github.com/mc-wut/i
 
 After experimentation with `GridSearch`, we found that using a character-level `TfidfVectorizer` with the range (5,6), a word-level `TfidfVectorizer` with range (1,2) both with `min_df` set to 4 and `max_features` set to 5000 was the optimal configuration. We wanted to use polynomial features, but even at a depth of two the feature space was too large to compute. Finally, we applied sklearn's `SelectKBest` to limit to the best 10,000 features.
 
-For classification, we used sklearn's LogisticRegression set to OVR
+For classification, we used sklearn's LogisticRegression set to One vs Rest. 
 
 ## Results
 We were able to achieve a 0.94 f1 score in the sections we were interested in.
@@ -125,7 +125,7 @@ It occurred to me as we struggled to classify those two targets that they were t
 ## Issues
 The main issue with the approach that was used here is that the Contract Documents section ended up being huge in a number of cases. The Contract Documents section also often held a lot of our extractions. The classifier was still successful and useful. But it wasn't quite as effective at cutting processing speed as we hoped. I do wonder about the efficacy of building out a completely different binary dataset comparing pages that contain target extractions against those that do not.
 
-This approach would create an interesting logical loop. The ODIN system matches certain phrase structure, and then if it worked the classifier would end up searching for those same phrase structures.
+This approach would create an interesting logical loop. The ODIN system matches certain phrase structures, and then if it worked the classifier would end up searching for those same phrase structures.
 
 
 [Relevant Code to this project.](https://github.com/mc-wut/internship_files/tree/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers)
