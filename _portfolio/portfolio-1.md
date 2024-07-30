@@ -47,7 +47,7 @@ Complex rules combine several rules or the occurrence of a previous rule in a sp
       dummy_bid:Bid = (>dobj|>nsubjpass|>nsubj) (>nmod_for)?
       time:Time = (>nmod_at|>nmod_to)? (>nmod_of)? (>nmod_until|>/^nmod/|>dep)? (>nummod|>compound)?
 ```
-In this example, we have a 'bid' rule and a 'time' rule utilized as parts of an **Event-Mention**.
+In this example, we have a 'bid' rule and a 'time' rule utilized as parts of an **Event-Mention**. The grammatical relationships being described here are derived from the dependency parse portion of the NLP pipeline. 
 
 ![Bid-Time rule diagram](/images/internship-post-image.png)
 
