@@ -8,8 +8,12 @@ In Spring 2024 I was working for [LUM AI](http://lum.ai). Initially, I was taske
 
 Each page that didn't contain relevant data was still being, segmented, tokenized, parsed, tagged, and run through Named Entity Recognition, which means that even in the best case 90% of our processing resources and time were being wasted. I proposed an extension to the project that would run a simple classifier over the raw text of each page of the PDF, and attempt to sort them into *annotate* and *don't annotate* bins. This ended up being changed somewhat to classifying the PDFs along existing section lines, as that would be relevant to other projects being built for this text as well. 
 
-The texts we were working with were not uniform but followed one of two different section schemes. They contained either a 5 or 6-digit section code, which corresponded to a type of information. From the original dataset, we discluded a document that followed no scheme, at the direction of our customer.
+The texts we were working with were not uniform but followed one of two different section schemes. They contained either a 5 or 6-digit section code, which corresponded to a type of information. From the original dataset, we excluded a document that followed no scheme, at the direction of our customer.
 ![5-digit Section Number](/images/5-digit-section.png)
+<figure>
+   <img src="/images/5-digit-section.png" alt="5-digit-section-number"> 
+   <figcaption>This is the caption for the image.</figcaption>
+</figure>
 ![6-digit Section Number](/images/6-digit-section.png)
 
 ## Dataset Creation
@@ -22,10 +26,6 @@ The script in [`build_dataset.py`](https://github.com/mc-wut/internship_files/bl
 [`Section_Label.to_section_name()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/build_dataset.py#L60-L124) contained a mapping of our different section schemas (5 or 6-digit section numbers depending on which format they followed) to English section names.
 
 The occasional page lacking a section number necessitated the function [`confirm_continuous_section`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/build_dataset.py#L188-L209) as a sanity check. It checked if pages 234 and 236 were both in *ELECTRICAL* it made sure that page 235 wasn't accidentally in *TRANSPORTATION*
-```python
-
-```
-
 
 This got us most of the way there. However, the dataset still needed a good amount of hand correction. Many of the documents didn't have a label on their *BIDDING AND CONTRACT DOCUMENTS* sections, which were the most important sections for our purposes, and some sections had multiple consecutive pages missing section numbers, which is more than `confirm_continuous_section` could account for. 
 
