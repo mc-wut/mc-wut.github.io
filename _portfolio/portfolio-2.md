@@ -50,7 +50,7 @@ We modified [`_to_feature_dictionary()`](https://github.com/mc-wut/internship_fi
 
 The key helper functions here are:
     
-[`check_page_length()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L171-L176) This was excellent for helping with occasional blank pages,   "This page intentionally left blank" pages, and cover pages, which tend to have few characters, but many pertinent extractions.
+[`check_page_length()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L171-L176) This was excellent for helping with occasional blank pages, "This page intentionally left blank" pages, and cover pages, that latter of which tend to have few characters, but many pertinent extractions.
 
 [`check_addendum()`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L191-L197) Which uses a Regex to check for addend* in the header and footer. This one was pretty productive but probably produced the most cloudy signal. A few times in the dataset it produced false positives.
 
