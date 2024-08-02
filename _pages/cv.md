@@ -12,7 +12,7 @@ redirect_from:
 ### BA Linguistics with Computer Science Minor &ndash; University of Arizona (2019-2023)
 As an undergrad, I took particular joy in studying Semantics and Pragmatics, particularly Quantifier Scope. I had the opportunity to work with Dr. Robert Henderson on several independent studies including a survey of the most influential papers in Semantics (a very challenging favorite being *The Proper Treatment of Quantification in Regular English* by Richard Montague), and some basic work on a corpus of Uspanteko. I hope to have the opportunity to contribute to research on under-resourced languages again in the future. 
 ### MS Human Language Technology &ndash; University of Arizona (2022-2024)
-I enrolled in the Accelerated [Master's of Human Language Technology(https://linguistics.arizona.edu/ms-hlt)] in Fall 2022 while completing my Bachelor's. The program consisted of varied classes in Linguistics as well as Machine Learning and programming with a Linguistic focus. 
+I enrolled in the Accelerated [Master's of Human Language Technology](https://linguistics.arizona.edu/ms-hlt) in Fall 2022 while completing my Bachelor's. The program consisted of varied classes in Linguistics as well as Machine Learning and programming with a Linguistic focus. 
 
 ## Work Experience
 ### 2024 - Now

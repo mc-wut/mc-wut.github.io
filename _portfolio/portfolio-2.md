@@ -35,7 +35,7 @@ The occasional page lacking a section number necessitated the function [`confirm
 This got us most of the way there. However, the dataset still needed a good amount of hand correction. Many of the documents didn't have a label on their *BIDDING AND CONTRACT DOCUMENTS* sections, which were the most important sections for our purposes, and some sections had multiple consecutive pages missing section numbers, which is more than `confirm_continuous_section` could account for. 
 
 
-## Custom Vectorizer“Discluded” rather than “excluded”? I think, for this meaning, “exclude” is more common.
+## Custom Vectorizer
 We decided the best way to do this was to create an extension of Sci-Kit Learn's `DictVectorizer` in a pipeline with traditional vectorizers. After experimentation, we decided on 'TfidfVectorizer' for our traditional vectorizers. 
 
 Our custom vectorizer, [`TextBasedFeatureExractor`](https://github.com/mc-wut/internship_files/blob/905323ee86b7c2360188fb03e79316c3882e47a9/classifiers/page_classifier.py#L24), followed the intuition that there were a handful of important features we could (largely) base our classification on.
