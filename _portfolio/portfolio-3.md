@@ -1,13 +1,7 @@
 ---
 title: "The Dugmore Detector"
-slug: "/mclaughlinm/course-project"
-date: 2023-11-12
-author: Matt McLaughlin
-description: "My LING-582 course project"
-tags:
-  - course project
-  - authorship verification
-  - Dugmore Boetie
+excerpt: "An Attempt at Authorship Verification regarding a novel of disputed origins.<br/><img src='/images/familiarity.png'>"
+collection: portfolio
 ---
 
 In fall of 2023 I worked an independent study with Dr. Gus Hahn-Powell. We were looking at an authorship verification task, specifically one novel with disputed origins.
