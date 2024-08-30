@@ -140,4 +140,4 @@ A massive improvement would then be to attempt an implementation of something li
 
 ## Codes
 
-You can find my code here: `https://github.com/clu-ling/dugmore-detector` , please refer to the readme for how things are organized.
+You can find my code [here](https://github.com/clu-ling/dugmore-detector) , please refer to the readme for how things are organized.
