@@ -19,7 +19,7 @@ The goal of this project is to determine the authorship of the disputed text. On
 
 A collection of texts were assembled from Boetie, Simon, and a number of their contemporaries. From those texts a dataset was built. Testing showed that LogisticRegression was most accurate on snippets of 75 words. So each text was carved up into 75 word chunks, and reassembled into a csv with an id, a chunk and a label, "Boetie", "Simon", and "Other".
 
-The core of the project was an extension of sklearn's DictVectorizer called FeatureEncoder. It creates a large feature dictionary out of the database. The features it uses are word ngrams and character ngrams, as well as custom stylometric features, like average sentence length, and punctuation frequency.
+The core of the project was an extension of sklearn's DictVectorizer called FeatureEncoder. It creates a large feature dictionary out of the database. The features it uses are word n-grams and character n-grams, as well as punctuation frequency. The classifier being used is sklearn's LogisticRegression, with the solver set to 'One versus Rest'.
 
 ```Python
 class FeatureEncoder(DictVectorizer):
@@ -35,14 +35,14 @@ class FeatureEncoder(DictVectorizer):
       # feature_fns is a dictionary that contains "feature functions"
       # feature functions are the custom 
       self.feature_fns: Dict[FeatureFn] = {
-         "word_bigrams": lambda text: generate_ngrams(text=text, ngram_range=(1,2), 
+         "word_bigrams": lambda text: generate_n-grams(text=text, n-gram_range=(1,2), 
                                                       level='word'),
-         "char_fourgrams": lambda text: generate_ngrams(text=text, ngram_range=(2,4), 
+         "char_fourgrams": lambda text: generate_n-grams(text=text, n-gram_range=(2,4), 
                                                         level='char'),
-         "word_polynomials": lambda text: create_polynomial_ngrams(
-            text=text, ngram_range=(1,2), level='word',degree=2),
-        #  "char_polynomials": lambda text: create_polynomial_ngrams(
-            # text=text, ngram_range=(2,4), level='char', degree=2),
+         "word_polynomials": lambda text: create_polynomial_n-grams(
+            text=text, n-gram_range=(1,2), level='word',degree=2),
+        #  "char_polynomials": lambda text: create_polynomial_n-grams(
+            # text=text, n-gram_range=(2,4), level='char', degree=2),
          "punctuation per snippet": lambda text: punct_count(text)
       }
 
@@ -90,6 +90,23 @@ After fitting Logistic Regression on our dataset, we classified *Familiarity is 
 
 A state of the art approach would be something that resembles [AD-HOMINEM](https://doi.org/10.48550/arxiv.1910.08144), a Siamese NN, which is two identical recurrent neural networks that share the exact same set of parameters. The delta of the output of those two RNN's is used to determine authorship. AD-HOMINEM also uses attention layers making it possible to examine what exactly the classifier is making decisions based on, and possibly generate an entire copy of the book overlaid with heat maps of what was important to classifying the different blocks of text.
 
+## A Brief Guide to the Code
+
+in the *src* directory, there is a graveyard called 'archived' that can be ignored, and a handful of python scripts. I'll summarize their contents here.
+
+**csv_compiler.py** contains *chunk()* and *get_files()*, which are used to break a directory of .txt files into chunks of a given size and produce a pandas DataFrame of those chunks. There were some encoding issues with some of the files so you'll see some encoding stuff in there as well.
+
+**read_train.py** just contains *read()* which takes a file path and converts it into a DataFrame with headings *TEXT*, *LABEL*, and *ID*
+
+**familiarity_csv_complier.py** is a super simple script that creates the DataFrame and resulting .csv file for *Familiarity is the Kingdom of the Lost*
+
+**custom_dict_vectorizer.py** contains the *FeatureEncoder* class, the extension of *sklearn.DictVectorizer* we discussed earlier, as well as some helper functions for stylometric features and n-gram creation; *punct_count()*, *create_polynomial_n-grams()*, *generate_n-grams()*
+
+**pipeline.py** contains the class *PipelineWrapper*, which gets *FeatureEncoder*, *LogisticRegression*, and *LabelEncoder* all organized and playing nice. It also has methods for producing a csv and an excel doc of our predictions. The excel doc is linked below as a google sheet.
+
+**main.py** stitches everything together and produces a csv file containing predictions and confidence scores to the *outputs* directory named *[current date time]_dugmore.csv*.
+
+
 ## Error Analysis
 I tested the system on n=5 kfold cross validation and got the following vital statistics:                  
 
@@ -111,15 +128,13 @@ The system predicts that 83.8 % of the disputed text is authored by Boetie, whil
 
 As you can see the classifier's confidence score is included in the results spreadsheet, and chunks of the text that were classified as not Boetie are highlighted. 
 
-## Steps for Reproduction
-To reproduce results, use the dockerfile provided and run main.py. It will generate a file called '{currentdatetime}_dugmore.csv' to the outputs directory. That will contain predictions and confidence scores for each chunk of the novel. 
 
-## Proposal for Future Improvments
-The current interation of the Dugmore Detector has a number of limitations. Firstly it's quite opaque, the only insight we get into the classification is confidence scores. Secondly the text is chunked by word rather than sentence or paragraph. This is probably not ideal for a text that may have multiple authors.
+## Possibilities for Future Improvements
+The current iteration of the Dugmore Detector has a number of limitations. Firstly it's quite opaque, the only insight we get into the classification is confidence scores. Secondly the text is chunked by word rather than sentence or paragraph. This is probably not ideal for a text that may have multiple authors.
 
-One improvement would be breaking the training data into sentences or groups of sentences. I might use ntlk's sent tokenizer to do that in future iterations of the project. It could also be very interesting to approach the sentences like windows in an n_gram, and see how different the results for overlapping sentences is. 
+One improvement would be breaking the training data into sentences or groups of sentences. I might use NLTK's sent tokenizer to do that in future iterations of the project. It could also be very interesting to approach the sentences like windows in an n_gram, and see how different the results for overlapping sentences is. 
 
-Another possible avenue for improvment (as mentioned above) would be raising the threshold for positive identification. Our mean confidence score for false postivie was 0.604 so that would be a good place to start. 
+Another possible avenue for improvement (as mentioned above) would be raising the threshold for positive identification. Our mean confidence score for false positive was 0.604 so that would be a good place to start. 
 
 A massive improvement would then be to attempt an implementation of something like AD-HOMINEM like discussed above. Generating a heatmap of the entire text that displays which words, sentences, and phrases are given the most weight in classification and sharing that with academics well versed in the topic would be interesting in the least and hopefully helpful.
 
