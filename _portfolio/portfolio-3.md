@@ -138,6 +138,6 @@ Another possible avenue for improvement (as mentioned above) would be raising th
 
 A massive improvement would then be to attempt an implementation of something like AD-HOMINEM like discussed above. Generating a heatmap of the entire text that displays which words, sentences, and phrases are given the most weight in classification and sharing that with academics well versed in the topic would be interesting in the least and hopefully helpful.
 
-## Codes
+## Code
 
 You can find my code [here](https://github.com/clu-ling/dugmore-detector) , please refer to the readme for how things are organized.
